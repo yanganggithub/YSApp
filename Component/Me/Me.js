@@ -86,20 +86,19 @@ export default class Me extends Component{
                     <View style={styles.rightContentStyle}>
 
                         <View style={styles.rightTopViewStyle}>
-                            <Text>{rowData.title}</Text>
-
+                            <Text style={{color:'#383838',fontSize:16}}>{rowData.playName}</Text>
                         </View>
-                        <View style={styles.areaStyle}>
-                            <Text style={{color:'gray'}}>{rowData.playName}</Text>
-                        </View>
-
-                        <Text style={{color:'gray'}}>{rowData.playTime}</Text>
+                       
+ 
+                        <Text style={{color:'#a1a1a1',fontSize:14}}>{this.getTime(rowData.playTime)}</Text>
 
                     </View>
                 </View>
             </TouchableOpacity>
         )
     }
+
+   
 
     componentWillMount(){    
         //异步获取数据
@@ -115,14 +114,9 @@ export default class Me extends Component{
                 // cell的数据源
                 dataSource: this.state.dataSource.cloneWithRows(objArr),
             });
-
         });       
     }
-
-
 }
-
-
 
 
 const styles = StyleSheet.create({
@@ -172,8 +166,8 @@ const styles = StyleSheet.create({
     },
 
     imageViewStyle:{
-        width:80,
-        height:106
+        width:60,
+        height:60
     },
 
     rightContentStyle:{
@@ -183,7 +177,7 @@ const styles = StyleSheet.create({
     },
 
     rightTopViewStyle:{
-        marginTop:3
+        marginTop:0
     },
     areaStyle:{
         marginTop:7,

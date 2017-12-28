@@ -190,4 +190,5 @@ public class VodListFragment extends BaseFragment {
             super(itemView);
         }
     }
+
 }
