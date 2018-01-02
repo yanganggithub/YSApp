@@ -6,7 +6,7 @@ import com.ysapp.base.BaseModel;
 import com.ysapp.base.BasePresenter;
 import com.ysapp.base.BaseView;
 import com.ysapp.entity.MoveAddressEntity;
-import com.ysapp.http.HttpResult;
+
 
 import rx.Observable;
 

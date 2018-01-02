@@ -28,6 +28,8 @@ import AdHeader from '../Home/AdHeader';
 import ContentListCell from '../Home/ContentListCell'
 import LoadingView from "../Widget/LoadingView";
 import RetryView from "../Widget/RetryView";
+import YSNativeModule from "../Native/YSNativeModule";
+
 
 import Dimensions from'Dimensions';
 var {width,height} = Dimensions.get('window');
@@ -92,15 +94,7 @@ export default class Home extends Component{
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle} onPress={
                     ()=>{
-                        const { navigator } = this.props;
-
-                        if (navigator) {
-                            navigator.push({
-                                name: '详情页面',
-                                component: Search,
-                                params:null
-                            })
-                        }
+                        YSNativeModule.goToSearch();
                     }
                 }>
                     <Image source={{uri: 'nav_search'}} style={styles.navImageStyle}/>

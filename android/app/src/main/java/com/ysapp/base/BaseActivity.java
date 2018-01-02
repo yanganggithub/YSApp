@@ -1,8 +1,9 @@
 package com.ysapp.base;
 
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
-
+import android.widget.Toast;
 
 
 import com.zhusx.core.interfaces.Lib_LifeCycleListener;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 public class BaseActivity extends AppCompatActivity implements Lib_LifeCycleListener {
     private Set<Lib_OnCycleListener> cycleListener = new HashSet<>();
+    private Toast mToast;
 
     @Override
     public void _addOnCycleListener(Lib_OnCycleListener lib_onCycleListener) {
@@ -46,5 +48,16 @@ public class BaseActivity extends AppCompatActivity implements Lib_LifeCycleList
     protected void onPause() {
         super.onPause();
 
+    }
+
+    public void showToast(String message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
+        if (mToast == null) {
+            mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        }
+        mToast.setText(message);
+        mToast.show();
     }
 }

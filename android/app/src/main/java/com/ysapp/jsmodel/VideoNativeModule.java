@@ -13,6 +13,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.ysapp.entity.DetailEntity;
+import com.ysapp.ui.search.SearchActivity;
 
 
 /**
@@ -72,6 +73,14 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
 
         //调用Test类中的原生方法。
         new DataBaseProvider().getData();
+    }
+
+    @ReactMethod
+    public void goToSearch()
+    {
+        Activity currentActivity = getCurrentActivity();
+        Intent intent = new Intent(currentActivity, SearchActivity.class);
+        currentActivity.startActivity(intent);
     }
 
 

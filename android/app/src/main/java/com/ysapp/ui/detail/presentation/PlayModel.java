@@ -4,7 +4,6 @@ package com.ysapp.ui.detail.presentation;
 
 import com.ysapp.api.ApiService;
 import com.ysapp.entity.MoveAddressEntity;
-import com.ysapp.http.HttpResult;
 import com.ysapp.http.Retrofits;
 
 import rx.Observable;

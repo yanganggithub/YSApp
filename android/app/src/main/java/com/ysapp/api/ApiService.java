@@ -3,7 +3,9 @@ package com.ysapp.api;
 
 
 import com.ysapp.entity.MoveAddressEntity;
-import com.ysapp.http.HttpResult;
+import com.ysapp.entity.SearchBean;
+import com.ysapp.http.JSONResult;
+
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -26,4 +28,9 @@ public interface ApiService {
 
     @GET("/playm3u8")
     Observable<MoveAddressEntity> setAddress(@Query("a") String a, @Query("apikey") String key, @Query("url") String url,@Query("hd") String type);
+
+    @POST("/category/list")
+    @FormUrlEncoded
+    Observable<JSONResult<SearchBean>> getCategoryList(@Field("search") String search,
+                                                       @Field("page") int page);
 }

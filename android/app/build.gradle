@@ -152,6 +152,8 @@ dependencies {
     compile project(':react-native-vector-icons')
     compile project(':react-native-video')
     compile 'com.zhusx:core:0.1.0'
+    annotationProcessor 'com.zhusx:apt:0.4.0'
+
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile project(':react-native-code-push')

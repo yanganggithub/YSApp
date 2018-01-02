@@ -3,7 +3,7 @@ package com.ysapp.ui.detail.presentation;
 
 
 import com.ysapp.entity.MoveAddressEntity;
-import com.ysapp.http.HttpResult;
+
 
 import java.util.ArrayList;
 import java.util.List;

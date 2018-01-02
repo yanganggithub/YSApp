@@ -24,9 +24,16 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.ysapp.R;
 import com.ysapp.adapter.SearchAdapter;
+import com.ysapp.base.BaseActivity;
 import com.ysapp.entity.SearchBean;
+import com.ysapp.entity.SearchEntity;
+import com.ysapp.http.LoadData;
+import com.ysapp.http.LoadingHelper;
 import com.ysapp.utils.Constants;
 import com.ysapp.utils.JsonParser;
+import com.zhusx.core.network.HttpRequest;
+import com.zhusx.core.network.HttpResult;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +52,7 @@ import java.util.List;
  * QQ号：541433511
  * 作用：搜索页面
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends BaseActivity  {
 
     private EditText etInput;
     private ImageView ivVoice;
@@ -59,6 +66,34 @@ public class SearchActivity extends Activity {
     private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
     private String url;
     private List<SearchBean.ItemData> items;
+    private View contentView;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        findViews();
+
+        final LoadData<SearchEntity> loadData = new LoadData<SearchEntity>(LoadData.Api.Search, this);
+        loadData._setOnLoadingListener(new LoadingHelper<SearchEntity>(contentView, loadData) {
+
+            @Override
+            public void __onComplete(HttpRequest<Object> httpRequest, HttpResult<SearchEntity> data) {
+
+                initData(data.getData());
+            }
+        });
+        loadData._loadData();
+
+    }
+
+    private  void initData(SearchEntity data)
+    {
+
+
+    }
+
 
 
     /**
@@ -68,6 +103,7 @@ public class SearchActivity extends Activity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
+        contentView = findViewById(R.id.layout_content);
         etInput = (EditText) findViewById(R.id.et_input);
         ivVoice = (ImageView) findViewById(R.id.iv_voice);
         tvSearch = (TextView) findViewById(R.id.tv_search);
@@ -173,12 +209,6 @@ public class SearchActivity extends Activity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        findViews();
-    }
 
 
     private void showDialog() {
