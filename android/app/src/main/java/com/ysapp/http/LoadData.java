@@ -61,7 +61,7 @@ public class LoadData<T> extends BaseRetrofitLoadData<LoadData.Api, T, Object> {
     protected Observable<JSONResult<T>> getHttpParams(Api api, Object... params) {
         switch (api) {
             case Search:
-                return cast(Retrofits.createApi(ApiService.class).swapToken());
+                return cast(Retrofits.createApi(ApiService.class).getSearchList(valueOf(params[0]),getNextPage(),valueOf(params[1])));
         }
         return null;
     }

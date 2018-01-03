@@ -4,6 +4,7 @@ package com.ysapp.api;
 
 import com.ysapp.entity.MoveAddressEntity;
 import com.ysapp.entity.SearchBean;
+import com.ysapp.entity.SearchEntity;
 import com.ysapp.http.JSONResult;
 
 
@@ -29,8 +30,9 @@ public interface ApiService {
     @GET("/playm3u8")
     Observable<MoveAddressEntity> setAddress(@Query("a") String a, @Query("apikey") String key, @Query("url") String url,@Query("hd") String type);
 
-    @POST("/category/list")
+    @POST("ysapi/v1.Search/getSearchData")
     @FormUrlEncoded
-    Observable<JSONResult<SearchBean>> getCategoryList(@Field("search") String search,
-                                                       @Field("page") int page);
+    Observable<JSONResult<SearchEntity>> getSearchList(@Field("search") String search,
+                                                       @Field("page") int page,
+                                                       @Field("pageSize") String pageSize);
 }

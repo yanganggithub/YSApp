@@ -22,6 +22,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import Home from '../Home/Home';
 import Me from '../Me/Me';
 import Channel from '../Channel/Channel';
+import Rank from '../Rank/Rank';
 
 import {
     StackNavigator,
@@ -47,7 +48,7 @@ export default class Tabbar extends Component{
             {/*--商家--*/}
             {this.renderTabBarItem('频道', 'tab_type', 'tab_type_current','channel', '频道', Channel)}
             {/*--我的--*/}
-            {this.renderTabBarItem('排行', 'tab_top', 'tab_top_current','rank', '排行', Home)}
+            {this.renderTabBarItem('排行', 'tab_top', 'tab_top_current','rank', '排行', Rank)}
             {/*--更多--*/}
             {this.renderTabBarItem('我的', 'tab_me', 'tab_me_current','me', '我的', Me)}
         </TabNavigator>

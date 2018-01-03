@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.ysapp.R;
 import com.ysapp.entity.SearchBean;
+import com.ysapp.entity.SearchEntity;
 
 import java.util.List;
 
@@ -23,9 +24,9 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
 
     private  Context context;
-    private final List<SearchBean.ItemData> mediaItems;
+    private final List<SearchEntity.ListBean> mediaItems;
 
-    public SearchAdapter(Context context, List<SearchBean.ItemData> mediaItems){
+    public SearchAdapter(Context context, List<SearchEntity.ListBean> mediaItems){
         this.context = context;
         this.mediaItems = mediaItems;
     }
@@ -61,9 +62,9 @@ public class SearchAdapter extends BaseAdapter {
         }
 
         //根据position得到列表中对应位置的数据
-        SearchBean.ItemData mediaItem = mediaItems.get(position);
-        viewHoder.tv_name.setText(mediaItem.getItemTitle());
-        viewHoder.tv_desc.setText(mediaItem.getKeywords());
+        SearchEntity.ListBean mediaItem = mediaItems.get(position);
+        viewHoder.tv_name.setText(mediaItem.title);
+        viewHoder.tv_desc.setText(mediaItem.description);
         //1.使用xUtils3请求图片
 //        x.image().bind(viewHoder.iv_icon,mediaItem.getImageUrl());
         //2.使用Glide请求图片
@@ -74,7 +75,7 @@ public class SearchAdapter extends BaseAdapter {
 //                .into(viewHoder.iv_icon);
 
         //3.使用Picasso 请求图片
-        Picasso.with(context).load(mediaItem.getItemImage().getImgUrl1())
+        Picasso.with(context).load(mediaItem.litpic)
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.video_default)
                 .error(R.drawable.video_default)
