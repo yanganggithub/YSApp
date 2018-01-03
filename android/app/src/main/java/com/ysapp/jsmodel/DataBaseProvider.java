@@ -45,5 +45,13 @@ public class DataBaseProvider {
 
     }
 
+    public void getDataById(String id)
+    {
+        HistoryEntity data = DBManager.getHistory(id);
+        String dataString = new Gson().toJson(data);
+        sendEvent(myContext,"ReceiveDataById",dataString);
+    }
+
+
 
 }

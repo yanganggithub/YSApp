@@ -21,6 +21,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import ChannelDetail from '../Channel/ChannelDetail';
+
 
 
 var {width,height} = Dimensions.get('window');
@@ -105,15 +107,10 @@ export default class Channel extends Component{
    
 
 press(data){
-    const { navigator } = this.props;
+    
+    const { navigate } = this.props.navigation;
+    navigate('ChannelDetail',data);
 
-    if (navigator) {
-        navigator.push({
-            name: '详情页面',
-            component: ChannelDetail,
-            params:data
-        })
-    }
 }
 
 retry() {
@@ -156,7 +153,7 @@ retry() {
 
                 cateData = jsonData.map(data => {
                     let dic={};
-                    dic['id'] = data['typeid'];
+                    dic['typeid'] = data['typeid'];
                     dic['name'] = data['typename'];
                     dic['total'] = data['total'];
                     return dic;

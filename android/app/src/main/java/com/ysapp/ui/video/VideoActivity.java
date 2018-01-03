@@ -226,6 +226,8 @@ public class VideoActivity extends MVPBaseActivity<PlayPresenter> implements Pla
         {
             url = url.replace("\r\n","").replace("\t","").replace(" ","");
             player.play(url);
+            if (currentPos != 0)
+                player.seekTo(currentPos, false);
             isInPlay = true;
         }
 

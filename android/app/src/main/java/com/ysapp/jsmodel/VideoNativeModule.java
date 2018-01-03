@@ -41,7 +41,7 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
     //函数不能有返回值，因为被调用的原生代码是异步的，原生代码执行结束之后只能通过回调函数或者发送消息给rn那边
     //有一个错误
     @ReactMethod
-    public void rnCallNative(String name ,String url,String title,String jsonString){
+    public void rnCallNative(String name ,String url,String title,String jsonString,int originIndex,int playIndex,int currentPos){
 
         try{
             Activity currentActivity = getCurrentActivity();
@@ -57,6 +57,9 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
                 intent.putExtra("data", bundle);
                 intent.putExtra("url",url);
                 intent.putExtra("title",title);
+                intent.putExtra("origin_index",originIndex);
+                intent.putExtra("play_index",playIndex);
+                intent.putExtra("time",currentPos);
 
                 currentActivity.startActivity(intent);
             }
@@ -83,6 +86,14 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
         currentActivity.startActivity(intent);
     }
 
+
+    @ReactMethod
+    public void getHistoryById(String id)
+    {
+        //调用Test类中的原生方法。
+        new DataBaseProvider().getDataById(id);
+
+    }
 
 
 }

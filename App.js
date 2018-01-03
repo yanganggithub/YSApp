@@ -17,6 +17,8 @@ import {
 
 
 import VideoDetail from './Component/VideoDetail/VideoDetail.js';
+import Channel from './Component/Channel/Channel.js';
+import ChannelDetail from './Component/Channel/ChannelDetail.js';
 import { StackNavigator } from 'react-navigation';
 import codePush from "react-native-code-push";
 
@@ -91,6 +93,8 @@ App = codePush(App);
 App = StackNavigator({
   Home: { screen: App },
   VideoDetail:{screen:VideoDetail},
+  Channel:{screen:Channel},
+  ChannelDetail:{screen:ChannelDetail},
 
 },
   {

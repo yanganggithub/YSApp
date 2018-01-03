@@ -21,6 +21,7 @@ import {
     ScrollView,
     PixelRatio,
     AsyncStorage,
+    DeviceEventEmitter,
     TouchableWithoutFeedback,
 } from 'react-native';
 
@@ -52,6 +53,7 @@ export default class VideoDetail extends Component{
         }
 
         this.state = {
+            historyData:'',
             error:false,
             pageLoading:true,
             scrollVar:true,
@@ -298,17 +300,24 @@ export default class VideoDetail extends Component{
                     </View>
 
                   
-
+                   <View style = {styles.history}> 
+                       <Text style={{color:'white',fontSize:12}}>你上次观看到:  {this.state.historyData.playName}}</Text>
+                    </View>
+            
                     <View style={styles.btn}>
                         <TouchableWithoutFeedback onPress={()=>{
                                     
-                                    {/*const { navigate } = this.props.navigation;*/}
-
-
-                                    {/*navigate('VideoPlay',this.state.headerDataDic.vod_url_list[0].list[0]);*/}
-
                                     var  jsonString = JSON.stringify(this.state.headerDataDic);
-                                    YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,"电影观看",jsonString );
+                                    if(this.state.historyData =='')
+                                    {
+                                        YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,"电影观看",jsonString ,0,0,0);
+
+                                    }else{
+
+                                  
+                                        YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,this.state.historyData.playName,jsonString ,this.state.historyData.originIndex,this.state.historyData.playIndex,this.state.historyData.playTime);
+                                    }
+                                    
 
                                 } }>
                                 <Text style={styles.btn_text}>播放</Text>
@@ -339,6 +348,20 @@ export default class VideoDetail extends Component{
     // 请求网络数据
     componentDidMount(){
     
+        const { params } = this.props.navigation.state;
+        YSNativeModule.getHistoryById(params.id);
+       
+        //监听ReceiveData的事件接受数据
+        DeviceEventEmitter.addListener('ReceiveDataById', (getHistory)=> {    
+            
+            var obj = JSON.parse(getHistory);
+            this.setState(
+                {
+                    historyData:obj
+                }
+            );
+        });   
+
         this.loadDataFromNet();
     }
 
@@ -1015,6 +1038,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+    history:{
+        position:'absolute',
+        bottom:50,
+        left:0,
+    },
+
     page: {
         flex: 1,
         position: 'absolute',
@@ -1052,7 +1081,7 @@ const styles = StyleSheet.create({
     },
     btn: {
         justifyContent:'center',
-        marginTop:5,
+        marginTop:25,
         width: 80,
         height: 35,
         borderRadius: 3,

@@ -109,7 +109,6 @@ export default class Me extends Component{
         DeviceEventEmitter.addListener('ReceiveData', (getHistory)=> {    
             
             var objArr = JSON.parse(getHistory);
-            alert(getHistory);
             this.setState({
                 // cell的数据源
                 dataSource: this.state.dataSource.cloneWithRows(objArr),
