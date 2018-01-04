@@ -118,8 +118,6 @@ export default class Home extends Component{
    // https://localhost:8888/TP5.0/public/index.php/ysapi/v1.HomePage/getHomeData
     loadDataFromNet(){
         console.log('loadDataFromNet');
-
-
         request.get(config.api.base + 'ysapi/v1.HomePage/getHomeData',{
             
        }).then(
