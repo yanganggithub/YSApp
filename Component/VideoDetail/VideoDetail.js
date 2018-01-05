@@ -30,7 +30,6 @@ import request from '../Common/request';
 import config from '../Common/config';
 import VideoHeader from '../VideoDetail/VideoHeader'
 import VideoFooter from '../VideoDetail/VideoFooter'
-import VideoPlayIOS from '../VideoPlay/VideoPlayIOS'
 import LoadingView from "../Widget/LoadingView";
 import RetryView from "../Widget/RetryView";
 import YSNativeModule from "../Native/YSNativeModule";
@@ -860,17 +859,7 @@ class SeriesList extends Component {
     }
 
 
-    press(data) {
-        const { navigator } = this.props;
-
-        if (navigator) {
-            navigator.push({
-                name: '详情页面',
-                component: VideoPlayIOS,
-                params:data
-            })
-        }
-    }
+ 
 }
 
 class Item extends Component {

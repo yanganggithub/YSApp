@@ -110,16 +110,6 @@ android {
         }
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
-
-
-
-
     signingConfigs {
         release {
             storeFile file("my-release-key.keystore")
@@ -160,8 +150,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-vector-icons')
-    compile project(':react-native-video')
     compile 'com.zhusx:core:0.1.0'
     annotationProcessor 'com.zhusx:apt:0.4.0'
 
