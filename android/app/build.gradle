@@ -97,7 +97,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.ysapp"
@@ -110,16 +110,21 @@ android {
         }
     }
 
-    project.ext.react = [
-            cliPath: "node_modules/haul/bin/cli.js"
-    ]
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+
 
 
     signingConfigs {
         release {
-            storeFile file("gg_key")
+            storeFile file("my-release-key.keystore")
             storePassword "123456"
-            keyAlias "gg"
+            keyAlias "my-key-alias"
             keyPassword "123456"
         }
     }
