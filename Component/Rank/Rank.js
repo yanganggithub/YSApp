@@ -25,6 +25,8 @@ import Dimensions from'Dimensions';
 import request from '../Common/request';
 import config from '../Common/config';
 import VideoDetail from '../VideoDetail/VideoDetail';
+import LoadingView from '../Widget/LoadingView';
+import RetryView from '../Widget/RetryView';
 
 var {width,height} = Dimensions.get('window');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -100,6 +102,8 @@ class VideoList extends Component {
 
         this.state = {
             // cell的数据源
+            error:false,
+            pageLoading:true,
             dataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1 !== r2
             }),
@@ -109,6 +113,15 @@ class VideoList extends Component {
     }
 
     render() {
+        if (this.state.error)
+        return (
+            <RetryView retryClick={this.retry.bind(this)}/>
+        )
+    else if (this.state.pageLoading)
+        return (
+            <LoadingView/>
+        )
+    else
         return(
             <ListView
                 dataSource={this.state.dataSource}
@@ -187,6 +200,14 @@ class VideoList extends Component {
         return this.cachedResults.items.length !== this.cachedResults.total
     }
 
+    retry() {
+        this.setState({
+            error: false,
+            pageLoading: true,
+        });
+        this.loadDataFromNet(1);
+    }
+
     // 请求网络数据
     componentDidMount(){
         console.log(this.props.type);
@@ -207,8 +228,15 @@ class VideoList extends Component {
             }
         ).catch(
             (err) => {
-                console.log(err);
-                this.cachedResults.nextPage--;
+                if(error)
+                {
+                    console.log(err);
+                    this.cachedResults.nextPage--;
+                    this.setState({
+                        error:true
+                    });
+                }
+                
             }
         )
 
@@ -229,6 +257,8 @@ class VideoList extends Component {
         // 更新状态机
         this.setState({
             isLoading:false,
+            pageLoading:false,
+            error:false,
             // cell的数据源
             dataSource: this.state.dataSource.cloneWithRows(this.cachedResults.items),
             isRefreshing:false

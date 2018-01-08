@@ -47,6 +47,7 @@ export default class ContentLIstCell extends Component{
 
        return(
          <ListView
+                style={{backgroundColor:'#fff'}}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderRow.bind(this)}
                 renderHeader={this.renderHeader.bind(this)}
@@ -68,10 +69,10 @@ export default class ContentLIstCell extends Component{
                 <View style={styles.cellStyle}>
                     <Image source={{uri: rowdata.litpic}} style={{width:imgW, height:imgH}}/>
                     <View style={styles.titleStyle}>
-                        <Text style={{fontSize:12,color:'#ffffff'}}>{rowdata.title+' '}</Text>
+                        <Text style={{fontSize:12,color:'#ffffff'}}>{'8分'}</Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.name}</Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.title}</Text>
                     </View>
 
                 </View>

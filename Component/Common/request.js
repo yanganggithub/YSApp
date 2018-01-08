@@ -15,7 +15,16 @@ request.get = (url,params) =>{
         url += '?' + queryString.stringify(params)
     }
 
-    return fetch(url).
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        follow: 20,
+        timeout: 10000,
+        size: 0,
+    }).
         then((response)=> response.json())
 
 }

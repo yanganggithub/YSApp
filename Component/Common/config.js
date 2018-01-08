@@ -15,7 +15,7 @@ const config={
             'Content-Type': 'application/json',
         },
         follow: 20,
-        timeout: 15000,
+        timeout: 10000,
         size: 0,
     }
 

@@ -21,6 +21,7 @@ import {
 
 
 var CateData = require('./Cate.json');
+import ChannelDetail from '../Channel/ChannelDetail';
 
 
 
@@ -55,7 +56,7 @@ export default class CateView extends Component{
            var data = CateData[i];
            // 创建组件装入数组
            itemArr.push(
-               <CateItem key={i} iconName={data.iconName} title={data.title}/>
+               <CateItem key={i} iconName={data.iconName} title={data.title} typeid={data.typeid} navigation = {this.props.navigation}/>
                );
        }
        // 返回
@@ -74,7 +75,10 @@ class CateItem extends Component{
 
       render(){
                 return(
-                  <TouchableOpacity activeOpacity={0.5} onPress={()=>{alert('0')}}>
+                  <TouchableOpacity activeOpacity={0.5} onPress={()=>{
+                    const { navigate } = this.props.navigation;
+                    navigate('ChannelDetail',{"typeid":this.props.typeid});
+                  }}>
                     <View style={styles.innerViewStyle}>
                         <Image source={{uri: this.props.iconName}} style={{width:26, height:26, marginBottom:3}}/>
                         <Text style={{color:'gray'}}>{this.props.title}</Text>

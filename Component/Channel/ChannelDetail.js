@@ -23,6 +23,8 @@ import request from '../Common/request';
 import config from '../Common/config';
 import VideoDetail from '../VideoDetail/VideoDetail'
 import LoadImage from '../Until/LoadImage';
+import RetryView from '../Widget/RetryView';
+import LoadingView from '../Widget/LoadingView';
 
 var cols = 3;
 var space = 8;
@@ -42,6 +44,8 @@ export default class ChannelDetail extends Component{
         }
 
         this.state = {
+            error:false,
+            pageLoading:true,
             cateid:this.props.id,
             isLoading:false,
             data:[],
@@ -53,33 +57,49 @@ export default class ChannelDetail extends Component{
     }
 
 
+    retry() {
+        this.setState({
+            error: false,
+            pageLoading: true,
+        });
+        this.loadDataFromNet();
+    }
 
     render() {
        
+        if (this.state.error)
         return (
-            <View style={styles.container}>
+            <RetryView retryClick={this.retry.bind(this)}/>
+        )
+        else if (this.state.pageLoading)
+            return (
+                <LoadingView/>
+            )
+        else
+            return (
+                <View style={styles.container}>
 
-                {this.renderNavBar()}
+                    {this.renderNavBar()}
+                    
                 
-              
 
-                <FlatList style={{flex: 1}}
-                    onEndReached = {this.loadMoreData}
-                    onEndReachedThreshold = {20}
-                    renderFooter={this.renderFooter}
-                    numColumns={3}
-                    data={this.state.data}
-                    renderItem={this.renderCell}
-                    ItemSeparatorComponent={() => {
-                        return <View style={{height: 1, backgroundColor: '#eee'}}/>
-                    }}
-                    keyExtractor={(item, index) => {
-                        return index
-                    }}
-                    />
+                    <FlatList style={{flex: 1}}
+                        onEndReached = {this.loadMoreData}
+                        onEndReachedThreshold = {20}
+                        renderFooter={this.renderFooter}
+                        numColumns={3}
+                        data={this.state.data}
+                        renderItem={this.renderCell}
+                        ItemSeparatorComponent={() => {
+                            return <View style={{height: 1, backgroundColor: '#eee'}}/>
+                        }}
+                        keyExtractor={(item, index) => {
+                            return index
+                        }}
+                        />
 
-            </View>
-        );
+                </View>
+            );
     }
 
     renderNavBar(){
@@ -171,7 +191,7 @@ export default class ChannelDetail extends Component{
         const { params } = this.props.navigation.state;
        
 
-        request.post(config.api.base + 'ysapi/v1.Rank/getRankByid',{
+        request.post(config.api.base + 'ysapi/v1/rank/getrank',{
             typeid:params.typeid,
             page:this.cachedResults.nextPage,
             pageSize:12,
@@ -185,6 +205,10 @@ export default class ChannelDetail extends Component{
             (err) => {
                 console.log(err);
                 this.cachedResults.nextPage--;
+                this.setState({
+                    error: true,
+                });
+
             }
         )
 
@@ -205,7 +229,8 @@ export default class ChannelDetail extends Component{
         // 更新状态机
         this.setState({
             isLoading:false,
-           
+            pageLoading:false,
+            error:false,
             data:this.cachedResults.items,
             isRefreshing:false
         });

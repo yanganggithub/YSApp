@@ -84,7 +84,7 @@ export default class AdHeader extends Component{
                   </View>
 
               </View>
-              <CateView/>
+              <CateView navigation = {this.props.navigation}/>
 
 
 

@@ -142,7 +142,7 @@ retry() {
 
     loadDataFromNet(){
 
-        request.get(config.api.base + 'ysapi/v1.Channel/getChannels',{
+        request.get(config.api.base + 'ysapi/v1/channel/all',{
 
         }).then(
         (responseData)=>{
