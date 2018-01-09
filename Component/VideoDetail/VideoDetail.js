@@ -52,7 +52,7 @@ export default class VideoDetail extends Component{
         }
 
         this.state = {
-            historyData:'',
+            historyData:null,
             error:false,
             pageLoading:true,
             scrollVar:true,
@@ -298,10 +298,10 @@ export default class VideoDetail extends Component{
                         <Text style={{color:'white',fontSize:12}}>年份: {this.state.headerDataDic.nianfen}</Text>
                     </View>
 
+                   {this.historyData != null ?  <View style = {styles.history}> 
+                        <Text style={{color:'white',fontSize:12}}>你上次观看到:  {this.state.historyData.playName}}</Text>
+                    </View>  : null}
                   
-                   <View style = {styles.history}> 
-                       <Text style={{color:'white',fontSize:12}}>你上次观看到:  {this.state.historyData.playName}}</Text>
-                    </View>
             
                     <View style={styles.btn}>
                         <TouchableWithoutFeedback onPress={()=>{
@@ -354,11 +354,16 @@ export default class VideoDetail extends Component{
         DeviceEventEmitter.addListener('ReceiveDataById', (getHistory)=> {    
             
             var obj = JSON.parse(getHistory);
-            this.setState(
-                {
-                    historyData:obj
-                }
-            );
+            
+            if(obj!=null)
+            {
+                this.setState(
+                    {
+                        historyData:obj
+                    }
+                );
+            }
+          
         });   
 
         this.loadDataFromNet();
@@ -423,43 +428,9 @@ export default class VideoDetail extends Component{
 
                 <TouchableOpacity onPress={()=>{
 
-                    AsyncStorage.getItem('FAVOURITE',(error,arrString)=>{
-                        let historyArr = [];
-
-                        if (arrString) {
-                            historyArr = JSON.parse(arrString);
-                        }
-
-                        if (historyArr.length < 10){
-
-                            let find = false;
-                            for (let obj in historyArr){
-                                if (obj.id === this.information.id){
-                                    find = true;
-                                    break;
-                                }
-                            }
-
-                            if (!find){
-                                historyArr.push(this.information);
-                            }
-
-                        }else {
-                            historyArr.shift();
-                            historyArr.push(this.information);
-                        }
-
-                        AsyncStorage.setItem('FAVOURITE',  JSON.stringify(historyArr), function (err) {
-                            if (err) {
-                                alert(err);
-                            } else {
-                                alert('保存成功');
-                            }
-                        });
-
-                    });
+                  
                 }} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_share'}} style={styles.navImageStyle}/>
+                    <Image source={{uri: 'nav_collection'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
             </View>
         )

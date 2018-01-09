@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     },
     topStyle:{
         height:10,
-        backgroundColor:'rgba(255,255,255,1.0)'
+        backgroundColor:'rgba(237,237,237,1.0)'
     },
 
 

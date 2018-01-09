@@ -31,13 +31,20 @@ import codePush from "react-native-code-push";
   // };
 
 
-
+  import { Provider } from 'react-redux';
+  import configureStore from './Component/ReduxSrc/store/ConfigureStore';
+  const store = configureStore();
 
 export default class App extends Component<{}> {
   render() {
+  //   return (
+  //    < Provider store={store}>
+  //       <Main navigation = {this.props.navigation}></Main>
+  //     </Provider>
+  // );
     return (
       <Main navigation = {this.props.navigation}></Main>
-  );
+    );
   }
 
   codePushStatusDidChange(status) {

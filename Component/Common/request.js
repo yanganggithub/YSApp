@@ -35,13 +35,8 @@ request.post = (url,body) =>{
     let map = _.extend(config.map,{
         body:JSON.stringify(body)
     })
-
-
-
-
     return fetch(url,map)
         .then((response)=> response.json())
-
 
 }
 

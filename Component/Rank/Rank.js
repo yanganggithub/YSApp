@@ -216,7 +216,6 @@ class VideoList extends Component {
 
     loadDataFromNet(page){
 
-     
         request.post(config.api.base + 'ysapi/v1.Rank/getRankByid',{
             typeid:this.props.type,
             page:page
@@ -285,7 +284,7 @@ class VideoList extends Component {
             } }>
                 <View style={styles.listViewStyle}>
                     {/*左边*/}
-                    <Image source={{uri:rowData.litpic}} style={styles.imageViewStyle}/>
+                    <Image source={{uri:rowData.litpic}}  loadingIndicatorSource ={{uri:'common_loading'}} style={styles.imageViewStyle} />
                     {/*右边*/}
 
                     <View style={styles.rightContentStyle}>

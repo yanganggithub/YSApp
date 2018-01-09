@@ -74,7 +74,6 @@ export default class ContentLIstCell extends Component{
                     <View style={styles.bottomViewStyle}>
                         <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.title}</Text>
                     </View>
-
                 </View>
             </TouchableOpacity>
 
