@@ -33,15 +33,18 @@ import VideoFooter from '../VideoDetail/VideoFooter'
 import LoadingView from "../Widget/LoadingView";
 import RetryView from "../Widget/RetryView";
 import YSNativeModule from "../Native/YSNativeModule";
+import *as collectionAction from '../ReduxSrc/action/collectionAction';// 导入action方法
+import { connect } from 'react-redux'; // 引入connect函数
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Dimensions from'Dimensions';
+import { collection } from '../ReduxSrc/action/collectionAction';
 var {width,height} = Dimensions.get('window');
 var headerHeight;
 var scrollGlobalVar = false;
 
 
-export default class VideoDetail extends Component{
+class VideoDetail extends Component{
     constructor(props){
         super(props);
         this.information = {
@@ -89,8 +92,6 @@ export default class VideoDetail extends Component{
             )
         else
         {
-
-        
             const detailView =  Platform.OS == 'ios' || Platform.OS == 'android'? (<ListView
                 ref="listView"
                 style={styles.listStyle}
@@ -268,7 +269,8 @@ export default class VideoDetail extends Component{
 
     renderHeader(){
         if (!this.state.headerDataDic) return <View></View>;
-        console.log('返回视图');
+        
+
         return(
             <View style={styles.headViewStyle}  onLayout={(event) => {
 
@@ -312,8 +314,6 @@ export default class VideoDetail extends Component{
                                         YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,"电影观看",jsonString ,0,0,0);
 
                                     }else{
-
-                                  
                                         YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,this.state.historyData.playName,jsonString ,this.state.historyData.originIndex,this.state.historyData.playIndex,this.state.historyData.playTime);
                                     }
                                     
@@ -347,6 +347,12 @@ export default class VideoDetail extends Component{
     // 请求网络数据
     componentDidMount(){
     
+        
+        if(this.props.choose === true)
+        {
+
+
+        }
         const { params } = this.props.navigation.state;
         YSNativeModule.getHistoryById(params.id);
        
@@ -416,6 +422,7 @@ export default class VideoDetail extends Component{
 
     // 导航条
     renderNavBar(){
+        const { choose, collection, cancelCollection } = this.props;
         return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{
@@ -426,10 +433,7 @@ export default class VideoDetail extends Component{
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>咕噜影院</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{
-
-                  
-                }} style={styles.rightViewStyle}>
+                <TouchableOpacity onPress={collection} style={styles.rightViewStyle}>
                     <Image source={{uri: 'nav_collection'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
             </View>
@@ -444,12 +448,22 @@ export default class VideoDetail extends Component{
             let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         }).toUpperCase();
-
     }
-
-
 }
 
+
+
+
+  
+export default connect(
+    state =>({
+        choose: state.collection.choose,
+        }),
+        (dispatch) => ({
+            collection: () => dispatch(collection.collectionAction()),
+            cancelCollection: () => dispatch(collection.cancelCollection()),
+          })
+  )(VideoDetail)
 
 //相似
 class SimilarList extends Component {
@@ -873,10 +887,8 @@ const styles = StyleSheet.create({
     navOutViewStyle:{
         height: Platform.OS == 'ios' ? 64 : 44,
         backgroundColor:'rgba(17,17,17,1.0)',
-
         // 设置主轴的方向
         flexDirection:'row',
-
         // 主轴方向居中
         justifyContent:'center'
     },
@@ -1107,7 +1119,6 @@ const styles = StyleSheet.create({
         borderRadius:3,
         backgroundColor:'#f9f9f9'
     },
-
     item_text: {
 
         color: '#262626',
