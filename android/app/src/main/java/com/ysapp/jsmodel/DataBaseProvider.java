@@ -1,18 +1,11 @@
 package com.ysapp.jsmodel;
 
-import com.alibaba.fastjson.JSONObject;
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.gson.Gson;
 import com.ysapp.db.DBManager;
 import com.ysapp.entity.HistoryEntity;
 
-
-import net.minidev.json.JSONArray;
-
-import java.lang.annotation.ElementType;
 import java.util.List;
 
 /**
@@ -44,6 +37,16 @@ public class DataBaseProvider {
         sendEvent(myContext,"ReceiveData",dataString);
 
     }
+
+    public String getCallBackData()
+    {
+        //返回数据
+        List<HistoryEntity> data= DBManager.getHistory();
+
+        String dataString = new Gson().toJson(data);
+        return  dataString;
+    }
+
 
     public void getDataById(String id)
     {

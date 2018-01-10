@@ -2,10 +2,8 @@ package com.ysapp.jsmodel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Entity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
@@ -94,6 +92,7 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
         new DataBaseProvider().getDataById(id);
 
     }
+
 
 
 }

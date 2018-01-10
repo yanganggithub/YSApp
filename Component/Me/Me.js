@@ -20,8 +20,8 @@ import {
     Dimensions,
 } from 'react-native';
 
-
 import YSNativeModule from "../Native/YSNativeModule"
+import DataBaseNativeModule from "../Native/DataBaseNativeModule"
 import VideoDetail from "../VideoDetail/VideoDetail"
 var {width,height} = Dimensions.get('window');
 
@@ -101,19 +101,36 @@ export default class Me extends Component{
    
 
     componentWillMount(){    
-        //异步获取数据
-        //发送事件从原生获取数据
-        YSNativeModule.getHistory();
+        // //异步获取数据
+        // //发送事件从原生获取数据
+        // YSNativeModule.getHistory();
        
-        //监听ReceiveData的事件接受数据
-        DeviceEventEmitter.addListener('ReceiveData', (getHistory)=> {    
+        // //监听ReceiveData的事件接受数据
+        // DeviceEventEmitter.addListener('ReceiveData', (getHistory)=> {    
             
-            var objArr = JSON.parse(getHistory);
-            this.setState({
-                // cell的数据源
-                dataSource: this.state.dataSource.cloneWithRows(objArr),
-            });
-        });       
+            // var objArr = JSON.parse(getHistory);
+            // this.setState({
+            //     // cell的数据源
+            //     dataSource: this.state.dataSource.cloneWithRows(objArr),
+            // });
+        // });   
+        
+        DataBaseNativeModule.getCallBackHistory((dataString)=>{
+            var objArr = JSON.parse(dataString);
+            if(objArr.length > 0)
+            {
+                alert(objArr);
+                this.setState({
+                    // cell的数据源
+                    dataSource: this.state.dataSource.cloneWithRows(objArr),
+                });
+            }
+          
+          },(errorMsg)=>{
+            
+        })
+        
+        
     }
 
     formatSeconds(value) {
