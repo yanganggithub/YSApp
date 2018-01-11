@@ -33,7 +33,8 @@ import VideoFooter from '../VideoDetail/VideoFooter'
 import LoadingView from "../Widget/LoadingView";
 import RetryView from "../Widget/RetryView";
 import YSNativeModule from "../Native/YSNativeModule";
-import DataBaseNativeModule from "../Native/DataBaseNativeModule";
+import DataBaseNativeModule from '../Native/DataBaseNativeModule';
+import {bindActionCreators} from 'redux';
 import *as collectionAction from '../ReduxSrc/action/collectionAction';// 导入action方法
 import { connect } from 'react-redux'; // 引入connect函数
 
@@ -69,6 +70,7 @@ class VideoDetail extends Component{
                 rowHasChanged: (r1, r2) => r1 !== r2
             })
         };
+     
     }
 
 
@@ -94,15 +96,7 @@ class VideoDetail extends Component{
         else
         {
 
-            if(this.props.start)
-            {
-                DataBaseNativeModule.savaFavourite(JSON.stringify(this.state.headerDataDic),(success)=>{
-                       alert('搜藏成功');
-                },(error)=>{
-
-                });
-
-            } 
+          
             const detailView =  Platform.OS == 'ios' || Platform.OS == 'android'? (<ListView
                 ref="listView"
                 style={styles.listStyle}
@@ -281,7 +275,6 @@ class VideoDetail extends Component{
     renderHeader(){
         if (!this.state.headerDataDic) return <View></View>;
         
-
         return(
             <View style={styles.headViewStyle}  onLayout={(event) => {
 
@@ -328,7 +321,6 @@ class VideoDetail extends Component{
                                         YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,this.state.historyData.playName,jsonString ,this.state.historyData.originIndex,this.state.historyData.playIndex,this.state.historyData.playTime);
                                     }
                                     
-
                                 } }>
                                 <Text style={styles.btn_text}>播放</Text>
                         </TouchableWithoutFeedback>
@@ -358,12 +350,7 @@ class VideoDetail extends Component{
     // 请求网络数据
     componentDidMount(){
     
-        
-        if(this.props.choose === true)
-        {
-
-
-        }
+     
         const { params } = this.props.navigation.state;
         YSNativeModule.getHistoryById(params.id);
        
@@ -393,12 +380,23 @@ class VideoDetail extends Component{
         }).then(
             (responseData)=>{
                 console.log(responseData);
-           
-                this.information.pic = responseData['data']['pic'];
-                this.information.name = responseData['data']['name'];
-                this.information.title = responseData['data']['gold'];
-                // 处理网络数据
-                this.dealWithData(responseData);
+                console.log();
+                DataBaseNativeModule.getFavouriteById(responseData['data']['id'],(success)=>{
+                    this.props.signCollection();
+                    this.information.pic = responseData['data']['pic'];
+                    this.information.name = responseData['data']['name'];
+                    this.information.title = responseData['data']['gold'];
+                    // 处理网络数据
+                    this.dealWithData(responseData);
+                },(error)=>{
+                    this.props.unSignCollection();
+                    this.information.pic = responseData['data']['pic'];
+                    this.information.name = responseData['data']['name'];
+                    this.information.title = responseData['data']['gold'];
+                    // 处理网络数据
+                    this.dealWithData(responseData);
+                });
+             
 
                 //
             }
@@ -433,7 +431,8 @@ class VideoDetail extends Component{
 
     // 导航条
     renderNavBar(){
-        const { choose, collection, cancelCollection } = this.props;
+        // alert(JSON.stringify(this.state.headerDataDic));
+       alert(this.props.success);
         return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{
@@ -444,8 +443,8 @@ class VideoDetail extends Component{
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>咕噜影院</Text>
                 </View>
 
-                <TouchableOpacity onPress={this.props.collectionStart} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_collection'}} style={styles.navImageStyle}/>
+                <TouchableOpacity onPress={()=>{this.props.collectionStart(JSON.stringify(this.state.headerDataDic),this.state.headerDataDic['id'])}} style={styles.rightViewStyle}>
+                    <Image source={{uri:this.props.isSign ?'nav_collection_current' : 'nav_collection'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
             </View>
         )
@@ -466,14 +465,21 @@ class VideoDetail extends Component{
 
 
   
+// const mapToDispatchToProps = dispatch =>({
+//     collectionStart:bindActionCreators(collectionAction.collectionStart,dispatch),
+//     });
+
+
 export default connect(
     state =>({
-        start: state.collection.start,
+        isSign: state.collection.isSign,
         }),
-        (dispatch) => ({
-            collectionStart: () => dispatch(collectionAction.collectionStart()),
-            cancelCollectionStart: () => dispatch(collectionAction.cancelCollectionStart()),
-          })
+         (dispatch) => ({
+            collectionStart: (favourite,id) => dispatch(collectionAction.collectionStart(favourite,id)),
+            signCollection:()=>dispatch(collectionAction.signCollection()),
+            unSignCollection:()=>dispatch(collectionAction.unSignCollection()),
+        })
+
   )(VideoDetail)
 
 //相似

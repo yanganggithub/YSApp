@@ -137,9 +137,6 @@ export default class ChannelDetail extends Component{
         );
     }
 
-
-
-
     renderFooter=()=>{
         if(!this.hasMore()  && this.cachedResults.total!== 0 ){
             return (<View style={styles.loadingMore}>
@@ -189,8 +186,6 @@ export default class ChannelDetail extends Component{
     loadDataFromNet(page){
 
         const { params } = this.props.navigation.state;
-       
-
         request.post(config.api.base + 'ysapi/v1/rank/getrank',{
             typeid:params.typeid,
             page:this.cachedResults.nextPage,

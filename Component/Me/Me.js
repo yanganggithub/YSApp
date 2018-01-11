@@ -25,9 +25,15 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import YSNativeModule from "../Native/YSNativeModule"
 import DataBaseNativeModule from "../Native/DataBaseNativeModule"
 import VideoDetail from "../VideoDetail/VideoDetail"
+import FavouriteList from "./FavouriteList";
 var {width,height} = Dimensions.get('window');
 
-
+var cols = 3;
+var space = 8;
+var imgW = (width - (cols + 1) * space)/cols;
+var imgH =  (152.0/114.0 )*imgW;
+var cellW = imgW;
+var cellH = imgH + 44;
 
 
 export default class Me extends Component{
@@ -100,7 +106,7 @@ class WatchList extends Component {
 
     }
 
-    renderRow(data) {
+    renderRow(rowData) {
         return(
             <TouchableOpacity activeOpacity={1} onPress={()=>{
               
@@ -147,14 +153,13 @@ class WatchList extends Component {
             var objArr = JSON.parse(dataString);
             if(objArr.length > 0)
             {
-                alert(objArr);
                 this.setState({
                     // cell的数据源
                     dataSource: this.state.dataSource.cloneWithRows(objArr),
                 });
             }
-          
-          },(errorMsg)=>{
+        
+        },(errorMsg)=>{
             
         })
         
@@ -192,66 +197,7 @@ class WatchList extends Component {
 
 
 
-class FavouriteList extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            // cell的数据源
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
-            })
-        };
-    }
-
-    render(){
-        return(
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow.bind(this)}
-                contentContainerStyle={styles.contentViewStyle}
-            />
-        );
-
-    }
-
-    // 具体的cell
-    renderRow(rowdata){
-        console.log('rowdata:',rowdata);
-        return(
-            <TouchableOpacity activeOpacity={1} onPress={()=>{
-                const { navigate } = this.props.navigation;
-
-                navigate('VideoDetail',rowData);
-            } }>
-                <View style={styles.cellStyle}>
-                    <Image source={{uri: rowdata.pic}} style={{width:imgW, height:imgH}}/>
-                    <View style={styles.titleStyle}>
-                        <Text style={{fontSize:12,color:'#ffffff'}}>{rowdata.title+' '}</Text>
-                    </View>
-                    <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.name}</Text>
-                    </View>
-
-                </View>
-            </TouchableOpacity>
-
-        );
-    }
-
-    componentDidMount() {
-        AsyncStorage.getItem('FAVOURITE',(error,historyString)=> {
-            if (historyString) {
-                console.log('history:',historyString);
-               this.setState({
-                   dataSource :this.state.dataSource.cloneWithRows(JSON.parse(historyString))
-               });
-            }
-        });
-
-    }
-}
 
 
 const styles = StyleSheet.create({
@@ -266,6 +212,7 @@ const styles = StyleSheet.create({
         // 主轴方向居中
         justifyContent:'center'
     },
+
     leftViewStyle:{
         // 绝对定位
         position:'absolute',
@@ -315,6 +262,51 @@ const styles = StyleSheet.create({
     areaStyle:{
         marginTop:7,
         marginBottom:2
+    },
+
+    contentViewStyle:{
+        // 设置主轴的方向
+        flexDirection:'row',
+        // 多个cell在同一行显示
+        flexWrap:'wrap',
+        // 宽度
+        width:width,
+        alignItems:'flex-start'
+    },
+
+    titleStyle:{
+        width:imgW,
+        height:20,
+        backgroundColor:'rgba(0,0,0,0.6)',
+        justifyContent:'center',
+        alignItems:'flex-end',
+        // 定位
+        position:'absolute',
+        bottom:44
+
+    },
+    cellStyle:{
+        width:cellW,
+        height:cellH,
+        // 水平居中和垂直居中
+        justifyContent:'center',
+        alignItems:'center',
+        marginLeft:space
+    },
+    headerStyle:{
+        marginLeft:12,
+        width:width,
+        height:44,
+        justifyContent:'center'
+    },
+    bottomViewStyle:{
+        height:44,
+        justifyContent:'center',
+        alignItems:'center',
+
+    },
+    lineStyle:{
+        backgroundColor:'#00ae54'
     },
 
 });

@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 import com.ysapp.entity.DetailEntity;
 import com.ysapp.entity.HistoryEntity;
+import com.ysapp.entity.Move;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,28 @@ public class DBManager {
         if (dbHelper == null) {
             dbHelper = new DBHelper(context);
         }
+    }
+
+    /**
+     * 获取收藏列表
+     */
+    public static List<Move> getFavorite() {
+        List<Move> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from favorite  order by time desc  limit 20", null);
+        while (cursor.moveToNext()) {
+            Move move = new Move();
+            move.id = cursor.getString(cursor.getColumnIndex("_id"));
+            move.actor = cursor.getString(cursor.getColumnIndex("actor"));
+            move.area = cursor.getString(cursor.getColumnIndex("area"));
+            move.year = cursor.getString(cursor.getColumnIndex("year"));
+            move.title = cursor.getString(cursor.getColumnIndex("title"));
+            move.name = cursor.getString(cursor.getColumnIndex("name"));
+            move.pic = cursor.getString(cursor.getColumnIndex("pic"));
+            list.add(move);
+        }
+        cursor.close();
+        return list;
     }
 
     public static List<HistoryEntity> getHistory() {

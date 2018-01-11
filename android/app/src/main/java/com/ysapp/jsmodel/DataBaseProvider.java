@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.ysapp.db.DBManager;
 import com.ysapp.entity.DetailEntity;
 import com.ysapp.entity.HistoryEntity;
+import com.ysapp.entity.Move;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class DataBaseProvider {
 
     }
 
-    public String getCallBackData()
+    public String getHistoryCallBackData()
     {
         //返回数据
         List<HistoryEntity> data= DBManager.getHistory();
@@ -47,6 +48,14 @@ public class DataBaseProvider {
         String dataString = new Gson().toJson(data);
         return  dataString;
     }
+
+    public  String getFavouriteCallBackData()
+    {
+        List<Move> data = DBManager.getFavorite();
+        String dataString = new Gson().toJson(data);
+        return dataString;
+    }
+
 
 
     public void getDataById(String id)
@@ -58,11 +67,13 @@ public class DataBaseProvider {
 
     public  boolean saveFavouriteData(DetailEntity entity)
     {
-
       return  DBManager.swithFavorite(entity);
     }
 
-
+    public boolean isFavourite(String id)
+    {
+        return DBManager.isFavorite(id);
+    }
 
 
 }

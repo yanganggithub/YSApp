@@ -33,10 +33,19 @@ public class DataBaseNativeModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getCallBackHistory(Callback successCallback, Callback errorCallback) {
 
-        String dataString = new DataBaseProvider().getCallBackData();
+        String dataString = new DataBaseProvider().getHistoryCallBackData();
         successCallback.invoke(dataString);
 
     }
+
+    @ReactMethod
+    public void getCallBackFavourite(Callback successCallback, Callback errorCallback) {
+
+        String dataString = new DataBaseProvider().getFavouriteCallBackData();
+        successCallback.invoke(dataString);
+
+    }
+
 
     @ReactMethod
     public  void savaFavourite(String data, Callback successCallback, Callback errorCallback )
@@ -52,6 +61,19 @@ public class DataBaseNativeModule extends ReactContextBaseJavaModule {
            errorCallback.invoke(isSuccess);
        }
 
+    }
+
+    @ReactMethod
+    public void getFavouriteById(String id, Callback successCallback, Callback errorCallback)
+    {
+        boolean isSuccess = new DataBaseProvider().isFavourite(id);
+        if (isSuccess)
+        {
+            successCallback.invoke(isSuccess);
+        }else
+        {
+            errorCallback.invoke(isSuccess);
+        }
 
     }
 
