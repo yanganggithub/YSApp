@@ -227,14 +227,13 @@ class VideoList extends Component {
             }
         ).catch(
             (err) => {
-                if(error)
-                {
+               
                     console.log(err);
                     this.cachedResults.nextPage--;
                     this.setState({
                         error:true
                     });
-                }
+                
                 
             }
         )

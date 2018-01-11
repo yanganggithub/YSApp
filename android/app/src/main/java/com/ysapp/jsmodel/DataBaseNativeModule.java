@@ -6,6 +6,8 @@ import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.google.gson.Gson;
+import com.ysapp.entity.DetailEntity;
 
 /**
  * Created by yangang on 2018/1/10.
@@ -33,6 +35,23 @@ public class DataBaseNativeModule extends ReactContextBaseJavaModule {
 
         String dataString = new DataBaseProvider().getCallBackData();
         successCallback.invoke(dataString);
+
+    }
+
+    @ReactMethod
+    public  void savaFavourite(String data, Callback successCallback, Callback errorCallback )
+    {
+
+        DetailEntity entity = new Gson().fromJson(data ,DetailEntity.class);
+        boolean isSuccess = new DataBaseProvider().saveFavouriteData(entity);
+       if (isSuccess)
+       {
+           successCallback.invoke(isSuccess);
+       }else
+       {
+           errorCallback.invoke(isSuccess);
+       }
+
 
     }
 

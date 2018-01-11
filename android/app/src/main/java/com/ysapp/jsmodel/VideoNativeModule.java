@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.alibaba.fastjson.JSON;
-import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -39,49 +38,45 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
     //函数不能有返回值，因为被调用的原生代码是异步的，原生代码执行结束之后只能通过回调函数或者发送消息给rn那边
     //有一个错误
     @ReactMethod
-    public void rnCallNative(String name ,String url,String title,String jsonString,int originIndex,int playIndex,int currentPos){
+    public void rnCallNative(final String name , final String url, final String title, final String jsonString, final int originIndex, final int playIndex, final int currentPos){
 
-        try{
-            Activity currentActivity = getCurrentActivity();
-            if(null!=currentActivity){
+            final Activity currentActivity = getCurrentActivity();
+            if(null!=currentActivity) {
+                currentActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
-                Class aimActivity = Class.forName(name);
-                DetailEntity entity = new DetailEntity();
-                entity = JSON.parseObject(jsonString, DetailEntity.class);
 
-                Intent intent = new Intent(currentActivity,aimActivity);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("data",entity);
-                intent.putExtra("data", bundle);
-                intent.putExtra("url",url);
-                intent.putExtra("title",title);
-                intent.putExtra("origin_index",originIndex);
-                intent.putExtra("play_index",playIndex);
-                intent.putExtra("time",currentPos);
+                        Class aimActivity = null;
+                        try {
+                            aimActivity = Class.forName(name);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        DetailEntity entity = new DetailEntity();
+                        entity = JSON.parseObject(jsonString, DetailEntity.class);
 
-                currentActivity.startActivity(intent);
+                        Intent intent = new Intent(currentActivity, aimActivity);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("data", entity);
+                        intent.putExtra("data", bundle);
+                        intent.putExtra("url", url);
+                        intent.putExtra("title", title);
+                        intent.putExtra("origin_index", originIndex);
+                        intent.putExtra("play_index", playIndex);
+                        intent.putExtra("time", currentPos);
+
+                        currentActivity.startActivity(intent);
+                    }
+
+                });
             }
-        }catch(Exception e){
-
-            throw new JSApplicationIllegalArgumentException(
-                    "Could not open the activity : "+e.getMessage());
-
-        }
     }
     @ReactMethod
     public void getHistory()
     {
 
-        //调用Test类中的原生方法。
         new DataBaseProvider().getData();
-    }
-
-    @ReactMethod
-    public void goToSearch()
-    {
-        Activity currentActivity = getCurrentActivity();
-        Intent intent = new Intent(currentActivity, SearchActivity.class);
-        currentActivity.startActivity(intent);
     }
 
 
@@ -92,6 +87,18 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
         new DataBaseProvider().getDataById(id);
 
     }
+
+
+
+    @ReactMethod
+    public void goToSearch()
+    {
+        Activity currentActivity = getCurrentActivity();
+        Intent intent = new Intent(currentActivity, SearchActivity.class);
+        currentActivity.startActivity(intent);
+    }
+
+
 
 
 

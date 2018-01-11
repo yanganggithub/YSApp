@@ -33,12 +33,13 @@ import VideoFooter from '../VideoDetail/VideoFooter'
 import LoadingView from "../Widget/LoadingView";
 import RetryView from "../Widget/RetryView";
 import YSNativeModule from "../Native/YSNativeModule";
+import DataBaseNativeModule from "../Native/DataBaseNativeModule";
 import *as collectionAction from '../ReduxSrc/action/collectionAction';// 导入action方法
 import { connect } from 'react-redux'; // 引入connect函数
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Dimensions from'Dimensions';
-import { collection } from '../ReduxSrc/action/collectionAction';
+import { collection, collectionStart } from '../ReduxSrc/action/collectionAction';
 var {width,height} = Dimensions.get('window');
 var headerHeight;
 var scrollGlobalVar = false;
@@ -92,6 +93,16 @@ class VideoDetail extends Component{
             )
         else
         {
+
+            if(this.props.start)
+            {
+                DataBaseNativeModule.savaFavourite(JSON.stringify(this.state.headerDataDic),(success)=>{
+                       alert('搜藏成功');
+                },(error)=>{
+
+                });
+
+            } 
             const detailView =  Platform.OS == 'ios' || Platform.OS == 'android'? (<ListView
                 ref="listView"
                 style={styles.listStyle}
@@ -309,7 +320,7 @@ class VideoDetail extends Component{
                         <TouchableWithoutFeedback onPress={()=>{
                                     
                                     var  jsonString = JSON.stringify(this.state.headerDataDic);
-                                    if(this.state.historyData =='')
+                                    if(this.state.historyData ==null)
                                     {
                                         YSNativeModule.rnCallNative("com.ysapp.ui.video.VideoActivity",this.state.headerDataDic.vod_url_list[0].list[0].play_url,"电影观看",jsonString ,0,0,0);
 
@@ -433,7 +444,7 @@ class VideoDetail extends Component{
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>咕噜影院</Text>
                 </View>
 
-                <TouchableOpacity onPress={collection} style={styles.rightViewStyle}>
+                <TouchableOpacity onPress={this.props.collectionStart} style={styles.rightViewStyle}>
                     <Image source={{uri: 'nav_collection'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
             </View>
@@ -457,11 +468,11 @@ class VideoDetail extends Component{
   
 export default connect(
     state =>({
-        choose: state.collection.choose,
+        start: state.collection.start,
         }),
         (dispatch) => ({
-            collection: () => dispatch(collection.collectionAction()),
-            cancelCollection: () => dispatch(collection.cancelCollection()),
+            collectionStart: () => dispatch(collectionAction.collectionStart()),
+            cancelCollectionStart: () => dispatch(collectionAction.cancelCollectionStart()),
           })
   )(VideoDetail)
 

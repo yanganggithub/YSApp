@@ -4,6 +4,7 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.google.gson.Gson;
 import com.ysapp.db.DBManager;
+import com.ysapp.entity.DetailEntity;
 import com.ysapp.entity.HistoryEntity;
 
 import java.util.List;
@@ -54,6 +55,13 @@ public class DataBaseProvider {
         String dataString = new Gson().toJson(data);
         sendEvent(myContext,"ReceiveDataById",dataString);
     }
+
+    public  boolean saveFavouriteData(DetailEntity entity)
+    {
+
+      return  DBManager.swithFavorite(entity);
+    }
+
 
 
 
