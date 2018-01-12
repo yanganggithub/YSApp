@@ -16,16 +16,16 @@ import {
     ListView,
     Platform,   // 判断当前运行的系统
     TouchableOpacity,
-    DeviceEventEmitter,
     Dimensions,
     AsyncStorage,
+    FlatList,
 } from 'react-native';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import YSNativeModule from "../Native/YSNativeModule"
-import DataBaseNativeModule from "../Native/DataBaseNativeModule"
 import VideoDetail from "../VideoDetail/VideoDetail"
 import FavouriteList from "./FavouriteList";
+import WatchList from "./WatchList";
 var {width,height} = Dimensions.get('window');
 
 var cols = 3;
@@ -83,117 +83,6 @@ export default class Me extends Component{
  
 }
 
-class WatchList extends Component {
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            // cell的数据源
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
-            }),
-        };
-    }
-
-    render(){
-        return(
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow.bind(this)}
-            />
-        );
-
-    }
-
-    renderRow(rowData) {
-        return(
-            <TouchableOpacity activeOpacity={1} onPress={()=>{
-              
-                const { navigate } = this.props.navigation;
-
-                navigate('VideoDetail',rowData);
-            } }>
-                <View style={styles.listViewStyle}>
-                    {/*左边*/}
-                    <Image source={{uri:rowData.pic}} style={styles.imageViewStyle}/>
-                    {/*右边*/}
-
-                    <View style={styles.rightContentStyle}>
-
-                        <View style={styles.rightTopViewStyle}>
-                            <Text style={{color:'#383838',fontSize:16}}>{rowData.playName}</Text>
-                        </View>
-                       
- 
-                        <Text style={{color:'#a1a1a1',fontSize:14}}>{this.formatSeconds(rowData.playTime/1000)}</Text>
-
-                    </View>
-                </View>
-            </TouchableOpacity>
-        )
-    }
-
-    componentWillMount(){    
-        // //异步获取数据
-        // //发送事件从原生获取数据
-        // YSNativeModule.getHistory();
-       
-        // //监听ReceiveData的事件接受数据
-        // DeviceEventEmitter.addListener('ReceiveData', (getHistory)=> {    
-            
-            // var objArr = JSON.parse(getHistory);
-            // this.setState({
-            //     // cell的数据源
-            //     dataSource: this.state.dataSource.cloneWithRows(objArr),
-            // });
-        // });   
-        
-        DataBaseNativeModule.getCallBackHistory((dataString)=>{
-            var objArr = JSON.parse(dataString);
-            if(objArr.length > 0)
-            {
-                this.setState({
-                    // cell的数据源
-                    dataSource: this.state.dataSource.cloneWithRows(objArr),
-                });
-            }
-        
-        },(errorMsg)=>{
-            
-        })
-        
-        
-    }
-
-    formatSeconds(value) {
-        var secondTime = parseInt(value);// 秒
-        var minuteTime = 0;// 分
-        var hourTime = 0;// 小时
-        if(secondTime > 60) {//如果秒数大于60，将秒数转换成整数
-            //获取分钟，除以60取整数，得到整数分钟
-            minuteTime = parseInt(secondTime / 60);
-            //获取秒数，秒数取佘，得到整数秒数
-            secondTime = parseInt(secondTime % 60);
-            //如果分钟大于60，将分钟转换成小时
-            if(minuteTime > 60) {
-                //获取小时，获取分钟除以60，得到整数小时
-                hourTime = parseInt(minuteTime / 60);
-                //获取小时后取佘的分，获取分钟除以60取佘的分
-                minuteTime = parseInt(minuteTime % 60);
-            }
-        }
-        var result = "" + parseInt(secondTime) + "秒";
-
-        minuteTime > 0 ?  result = "" + parseInt(minuteTime) + "分" + result :  result = "00分" + result;
-        
-        hourTime >0 ?  result = "" + parseInt(hourTime) + "小时" + result : result = "00小时" + result;
-      
-         result = "你上次已观看到 " + result;
-        return   result;
- 
-    }
-}
 
 
 

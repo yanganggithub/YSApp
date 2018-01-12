@@ -432,7 +432,7 @@ class VideoDetail extends Component{
     // 导航条
     renderNavBar(){
         // alert(JSON.stringify(this.state.headerDataDic));
-       alert(this.props.success);
+       
         return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{

@@ -40,6 +40,13 @@ public class DataBaseProvider {
 
     }
 
+    public void saveHistory(HistoryEntity historyEntity)
+    {
+        DBManager.putHistory(historyEntity);
+        getData();
+    }
+
+
     public String getHistoryCallBackData()
     {
         //返回数据

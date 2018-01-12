@@ -11,26 +11,22 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.ysapp.R;
 import com.ysapp.base.MVPBaseActivity;
-import com.ysapp.db.DBManager;
 import com.ysapp.entity.DetailEntity;
 import com.ysapp.entity.HistoryEntity;
 import com.ysapp.entity.MoveAddressEntity;
+import com.ysapp.jsmodel.DataBaseProvider;
 import com.ysapp.ui.detail.presentation.PlayContract;
 import com.ysapp.ui.detail.presentation.PlayPresenter;
 import com.ysapp.ui.detail.view.VodListFragment;
 import com.ysapp.utils.UnitUtils;
-import com.zhusx.core.adapter.Lib_BaseAdapter;
 
 import java.util.List;
 
@@ -314,7 +310,8 @@ public class VideoActivity extends MVPBaseActivity<PlayPresenter> implements Pla
         historyEntity.id = entity.id;
         historyEntity.pic = entity.litpic;
 
-        DBManager.putHistory(historyEntity);
+//        DBManager.putHistory(historyEntity);
+        new DataBaseProvider().saveHistory(historyEntity);
     }
 
     @Override
