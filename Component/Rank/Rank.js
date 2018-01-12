@@ -307,8 +307,7 @@ class VideoList extends Component {
 const styles = StyleSheet.create({
 
     loadingMore:{
-
-        marginVertical:10
+        marginVertical:25
     },
 
     container: {

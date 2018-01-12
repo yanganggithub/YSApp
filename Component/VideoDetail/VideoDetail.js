@@ -349,9 +349,15 @@ class VideoDetail extends Component{
 
     // 请求网络数据
     componentDidMount(){
+        let params;
     
-     
-        const { params } = this.props.navigation.state;
+        if(this.props.bundle){
+            params = {'id':this.props.bundle.id};
+            
+        }else{
+            params  = this.props.navigation.state;
+        }
+        
         YSNativeModule.getHistoryById(params.id);
        
         //监听ReceiveData的事件接受数据
@@ -374,7 +380,14 @@ class VideoDetail extends Component{
     }
 
     loadDataFromNet(){
-        const { params } = this.props.navigation.state;
+        let params;
+        if(this.props.bundle.id){
+            params = {'id':this.props.bundle.id};
+            
+        }else{
+            params  = this.props.navigation.state;
+        }
+        
         request.get(config.api.base + 'ysapi/v1.Play/getPlayData',{
              'id':params.id,
         }).then(

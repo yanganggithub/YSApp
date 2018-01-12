@@ -1,6 +1,5 @@
 package com.ysapp.ui.search;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,14 +11,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.gson.Gson;
-
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerResult;
@@ -29,26 +25,21 @@ import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
 import com.squareup.picasso.Picasso;
 import com.ysapp.R;
-import com.ysapp.adapter.SearchAdapter;
 import com.ysapp.adapter.base.BaseListAdapter;
 import com.ysapp.base.BaseActivity;
 import com.ysapp.entity.SearchBean;
 import com.ysapp.entity.SearchEntity;
 import com.ysapp.http.LoadData;
 import com.ysapp.http.LoadingHelper;
-import com.ysapp.utils.Constants;
+import com.ysapp.ui.video.VideoDetailActivity;
 import com.ysapp.utils.JsonParser;
 import com.ysapp.widget.XListView;
-import com.zhusx.core.interfaces.IChangeAdapter;
 import com.zhusx.core.network.HttpRequest;
 import com.zhusx.core.network.HttpResult;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,6 +62,7 @@ public class SearchActivity extends BaseActivity  {
     private XListView listview;
     private ProgressBar progressBar;
     private TextView tvNodata;
+    public static final String DATA = "data";
     private BaseListAdapter adapter;
 
     // 用HashMap存储听写结果
@@ -98,6 +90,15 @@ public class SearchActivity extends BaseActivity  {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(SearchActivity.this, VideoDetailActivity.class);
+
+            SearchEntity.ListBean  listBean= items.get(position);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(DATA, listBean);
+            intent.putExtra(DATA,bundle);
+
+            SearchActivity.this.startActivity(intent);
+
 
 
 
@@ -178,16 +179,15 @@ public class SearchActivity extends BaseActivity  {
                 items.clear();
             }
 
-            try {
-                text = URLEncoder.encode(text, "UTF-8");
-                getDataFromNet(text);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+
+
+            getDataFromNet(text);
+
         }
     }
 
     private void getDataFromNet(String text) {
+
 
         if (loadData == null)
         {

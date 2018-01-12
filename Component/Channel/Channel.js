@@ -73,7 +73,7 @@ export default class Channel extends Component{
         
                         <CateItem data={this.state.cateData[i]}
                                     viewColor= {colorArr[i%4]}
-                                    press={this.press.bind(this, this.state.cateData[0]) }
+                                    press={this.press.bind(this, this.state.cateData[i]) }
         
                         >
         
@@ -81,7 +81,7 @@ export default class Channel extends Component{
         
                         <CateItem data={this.state.cateData[i+1]}
                                     viewColor={colorArr[(i+1)%4]}
-                                    press={this.press.bind(this, this.state.cateData[1]) }
+                                    press={this.press.bind(this, this.state.cateData[i+1]) }
         
                         >
                         </CateItem>
@@ -158,6 +158,8 @@ retry() {
                     dic['total'] = data['total'];
                     return dic;
                 })
+
+                
                 
                 this.setState(
                     {

@@ -86,13 +86,10 @@ export default class ChannelDetail extends Component{
                     <FlatList style={{flex: 1}}
                         onEndReached = {this.loadMoreData}
                         onEndReachedThreshold = {20}
-                        renderFooter={this.renderFooter}
+                        ListFooterComponent={this.renderFooter}
                         numColumns={3}
                         data={this.state.data}
                         renderItem={this.renderCell}
-                        ItemSeparatorComponent={() => {
-                            return <View style={{height: 1, backgroundColor: '#eee'}}/>
-                        }}
                         keyExtractor={(item, index) => {
                             return index
                         }}
@@ -106,8 +103,13 @@ export default class ChannelDetail extends Component{
         return(
             <View style={styles.navOutViewStyle}>
               
+              <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{
+                    this.props.navigation.goBack()}}>
+                    <Image source={{uri: 'nav_goback'}} style={styles.navImageStyle}/>
+                </TouchableOpacity>
+
                 <View style={styles.txtStyle}>
-                    <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>我的</Text>
+                    <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>频道详情</Text>
                 </View>
 
              
@@ -116,19 +118,20 @@ export default class ChannelDetail extends Component{
     }
 
     renderCell(rowdata){
+        
         return(
             <TouchableOpacity activeOpacity={1} onPress={()=>{
                 const { navigate } = this.props.navigation;
-                navigate('VideoDetail',rowdata);
+                navigate('VideoDetail',rowdata.item);
             } }>
                 <View style={styles.cellStyle}>
                
                     <Image source={{uri:rowdata.item.litpic}} loadingIndicatorSource ={{uri:'common_loading'}} style = {{width:imgW,height:imgH}} />
                     <View style={styles.titleStyle}>
-                        <Text style={{fontSize:12,color:'#ffffff'}}>{rowdata.item.title+' '}</Text>
+                        <Text style={{fontSize:12,color:'#ffffff'}}>8.0  </Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}></Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.item.title}</Text>
                     </View>
 
                 </View>
@@ -184,7 +187,7 @@ export default class ChannelDetail extends Component{
     }
 
     loadDataFromNet(page){
-
+        
         const { params } = this.props.navigation.state;
         request.post(config.api.base + 'ysapi/v1/rank/getrank',{
             typeid:params.typeid,
@@ -313,7 +316,7 @@ const styles = StyleSheet.create({
 
     loadingMore:{
         alignItems:'center',
-        marginVertical:10
+        marginVertical:21
     },
     loadingText:{
         fontSize:13,
@@ -325,7 +328,6 @@ const styles = StyleSheet.create({
 
         width:cellW,
         height:cellH,
-        flexDirection: 'row',
         marginLeft:space,
     },
     headerStyle:{
@@ -360,6 +362,18 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         // 主轴方向居中
         justifyContent:'center'
+    },
+
+    leftViewStyle:{
+        // 绝对定位
+        position:'absolute',
+        left:10,
+        bottom:Platform.OS == 'ios' ? 15:13
+    },
+
+    navImageStyle:{
+        width:Platform.OS == 'ios' ? 24: 24,
+        height:Platform.OS == 'ios' ? 24: 24,
     },
 
     txtStyle:{

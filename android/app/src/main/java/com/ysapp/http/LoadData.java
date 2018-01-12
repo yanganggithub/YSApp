@@ -2,7 +2,6 @@ package com.ysapp.http;
 
 import android.app.Dialog;
 
-
 import com.ysapp.api.ApiService;
 import com.ysapp.base.BaseActivity;
 import com.ysapp.base.BaseFragment;
@@ -10,13 +9,7 @@ import com.ysapp.widget.dialog.LoadingDialog;
 import com.zhusx.core.imp.OnCycleListenerImp;
 import com.zhusx.core.network.HttpRequest;
 import com.zhusx.core.network.HttpResult;
-import com.zhusx.core.utils._Files;
 
-import java.io.File;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import rx.Observable;
 
 /**
@@ -79,11 +72,7 @@ public class LoadData<T> extends BaseRetrofitLoadData<LoadData.Api, T, Object> {
 
     @Override
     protected void onLoadStart(Api api, HttpRequest<Object> request) {
-        switch (api) {
-           case Search:
-                showProgressDialog();
-                break;
-        }
+
     }
 
     public void showProgressDialog() {
