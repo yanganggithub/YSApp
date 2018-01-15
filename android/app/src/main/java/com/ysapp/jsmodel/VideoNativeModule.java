@@ -88,6 +88,14 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
 
     }
 
+    @ReactMethod
+    public void goBack()
+    {
+        final Activity currentActivity = getCurrentActivity();
+        currentActivity.finish();
+    }
+
+
 
 
     @ReactMethod

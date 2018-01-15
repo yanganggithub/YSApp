@@ -119,6 +119,7 @@ android {
         }
     }
 
+
     splits {
         abi {
             reset()
@@ -181,3 +182,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+

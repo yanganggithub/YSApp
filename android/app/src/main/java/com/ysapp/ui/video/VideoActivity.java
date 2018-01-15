@@ -216,7 +216,7 @@ public class VideoActivity extends MVPBaseActivity<PlayPresenter> implements Pla
         if (realUrl == 0){
 
                 player.setTitle(title + " " + entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
-                mPresenter.playMove(url, "2", entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
+                mPresenter.playMove("url", "2", entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
 
         }else if(realUrl == 1)
         {
@@ -250,7 +250,13 @@ public class VideoActivity extends MVPBaseActivity<PlayPresenter> implements Pla
 
     @Override
     public void playMoveSuccess(MoveAddressEntity entity, String title) {
-        player.play(entity.result.files);
+        if (entity.result.files !=null && entity.result.files.length()>0){
+            player.play(entity.result.files);
+        }else if(entity.result.filelist.size() >0){
+
+            MoveAddressEntity.ResultBean.ListEntity listEntity = entity.result.filelist.get(0);
+            player.play(listEntity.url);
+        }
         if (currentPos != 0)
             player.seekTo(currentPos, false);
         player.setTitle(this.entity.title + " " + (this.entity.type == 1 ? "" : title));

@@ -38,9 +38,17 @@ public class MoveAddressEntity {
          */
 
         public String files;
+        public List<ResultBean.ListEntity>  filelist;
         public String play_type;
         public int definition;
         public String definitionList;
+
+        public  static  class  ListEntity{
+            public  String url;
+            public  String size;
+            public  String seconds;
+        }
+
 
     }
 

@@ -3,7 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
-
+/*@flow*/
 // npm install
 
 import React, { Component } from 'react';
@@ -274,6 +274,9 @@ class VideoDetail extends Component{
 
     renderHeader(){
         if (!this.state.headerDataDic) return <View></View>;
+        if(this.state.headerDataDic.litpic.indexOf('https://www.guaiguaiyingshi.com') == -1){
+            this.state.headerDataDic.litpic = 'https://www.guaiguaiyingshi.com' + this.state.headerDataDic.litpic;
+        }
         
         return(
             <View style={styles.headViewStyle}  onLayout={(event) => {
@@ -352,12 +355,15 @@ class VideoDetail extends Component{
         let params;
     
         if(this.props.bundle){
+          
             params = {'id':this.props.bundle.id};
             
         }else{
-            params  = this.props.navigation.state;
+         
+            params= this.props.navigation.state.params;
+ 
         }
-        
+
         YSNativeModule.getHistoryById(params.id);
        
         //监听ReceiveData的事件接受数据
@@ -381,47 +387,50 @@ class VideoDetail extends Component{
 
     loadDataFromNet(){
         let params;
-        if(this.props.bundle.id){
+        if(this.props.bundle){
             params = {'id':this.props.bundle.id};
             
         }else{
-            params  = this.props.navigation.state;
+            params= this.props.navigation.state.params;
         }
         
-        request.get(config.api.base + 'ysapi/v1.Play/getPlayData',{
-             'id':params.id,
-        }).then(
-            (responseData)=>{
-                console.log(responseData);
-                console.log();
-                DataBaseNativeModule.getFavouriteById(responseData['data']['id'],(success)=>{
-                    this.props.signCollection();
-                    this.information.pic = responseData['data']['pic'];
-                    this.information.name = responseData['data']['name'];
-                    this.information.title = responseData['data']['gold'];
-                    // 处理网络数据
-                    this.dealWithData(responseData);
-                },(error)=>{
-                    this.props.unSignCollection();
-                    this.information.pic = responseData['data']['pic'];
-                    this.information.name = responseData['data']['name'];
-                    this.information.title = responseData['data']['gold'];
-                    // 处理网络数据
-                    this.dealWithData(responseData);
-                });
-             
-
-                //
-            }
-        ).catch(
-            (err) => {
-               this.setState(
-                   {
-                       error:true
-                   }
-               )
-            }
-        )
+        if(params){
+            request.get(config.api.base + 'ysapi/v1.Play/getPlayData',{
+                'id':params.id,
+           }).then(
+               (responseData)=>{
+                   console.log(responseData);
+                   console.log();
+                   DataBaseNativeModule.getFavouriteById(responseData['data']['id'],(success)=>{
+                       this.props.signCollection();
+                       this.information.pic = responseData['data']['pic'];
+                       this.information.name = responseData['data']['name'];
+                       this.information.title = responseData['data']['gold'];
+                       // 处理网络数据
+                       this.dealWithData(responseData);
+                   },(error)=>{
+                       this.props.unSignCollection();
+                       this.information.pic = responseData['data']['pic'];
+                       this.information.name = responseData['data']['name'];
+                       this.information.title = responseData['data']['gold'];
+                       // 处理网络数据
+                       this.dealWithData(responseData);
+                   });
+                
+   
+                   //
+               }
+           ).catch(
+               (err) => {
+                  this.setState(
+                      {
+                          error:true
+                      }
+                  )
+               }
+           )
+        }
+       
     }
 
 
@@ -429,7 +438,6 @@ class VideoDetail extends Component{
         var jsonData = responseData['data'];
         var listDataArr = [];
         listDataArr.push(jsonData);
-
         this.setState(
             {
                 pageLoading:false,
@@ -449,7 +457,14 @@ class VideoDetail extends Component{
         return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{
-                    this.props.navigation.goBack()}}>
+                    if(this.props.navigation)
+                    {
+
+                        this.props.navigation.goBack()
+                    }else{
+                        YSNativeModule.goBack();
+                    }
+                    }}>
                     <Image source={{uri: 'nav_goback'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
                 <View style={styles.txtStyle}>

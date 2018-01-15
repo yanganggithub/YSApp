@@ -3,16 +3,13 @@ package com.ysapp.api;
 
 
 import com.ysapp.entity.MoveAddressEntity;
-import com.ysapp.entity.SearchBean;
 import com.ysapp.entity.SearchEntity;
 import com.ysapp.http.JSONResult;
-
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 

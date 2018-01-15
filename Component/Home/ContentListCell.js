@@ -63,7 +63,7 @@ export default class ContentLIstCell extends Component{
         return(
             <TouchableOpacity activeOpacity={1} onPress={()=>{
                 const { navigate } = this.props.navigation;
-
+               
                 navigate('VideoDetail',rowdata);
             } }>
                 <View style={styles.cellStyle}>

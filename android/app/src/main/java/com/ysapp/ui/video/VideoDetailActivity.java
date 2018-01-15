@@ -1,10 +1,12 @@
 package com.ysapp.ui.video;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
+import com.ysapp.entity.SearchEntity;
 
 /**
  * Created by yangang on 2018/1/12.
@@ -38,10 +40,17 @@ public class VideoDetailActivity  extends ReactActivity {
         @javax.annotation.Nullable
         @Override
         protected Bundle getLaunchOptions() {
-            Bundle bundle = new Bundle();
-            bundle.putString("id","8388");
+
+            Intent intent = getIntent();
+
+            SearchEntity.ListBean listBean = (SearchEntity.ListBean) intent.getBundleExtra("data").getSerializable("data");
+
+            Bundle  bundle = new Bundle();
+            bundle.putString("id",listBean.id);
             return bundle;
         }
+
+
     }
 
 }

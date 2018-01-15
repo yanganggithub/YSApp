@@ -84,6 +84,7 @@ public class SearchActivity extends BaseActivity  {
         listview.setPullLoadEnable(true);
         listview.setXListViewListener(new MyIXListViewListener());
 
+
     }
 
     class MyOnItemClickListener implements AdapterView.OnItemClickListener {
@@ -92,16 +93,12 @@ public class SearchActivity extends BaseActivity  {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(SearchActivity.this, VideoDetailActivity.class);
 
-            SearchEntity.ListBean  listBean= items.get(position);
+            SearchEntity.ListBean  listBean= (SearchEntity.ListBean) parent.getItemAtPosition(position);// items.get(position);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(DATA, listBean);
+            bundle.putSerializable(DATA,listBean);
             intent.putExtra(DATA,bundle);
 
             SearchActivity.this.startActivity(intent);
-
-
-
-
 
         }
     }
@@ -178,9 +175,6 @@ public class SearchActivity extends BaseActivity  {
             if(items != null && items.size() >0){
                 items.clear();
             }
-
-
-
             getDataFromNet(text);
 
         }
@@ -222,7 +216,6 @@ public class SearchActivity extends BaseActivity  {
     private void processData(SearchEntity searchBean) {
 
         items =  searchBean.list;
-
         showData();
     }
 
@@ -332,7 +325,9 @@ public class SearchActivity extends BaseActivity  {
                 resultBuffer.append(mIatResults.get(key));
             }
 
-            etInput.setText(resultBuffer.toString());
+            String resultString =  resultBuffer.toString();
+            resultString = resultString.substring(0,resultString.length() - 1);
+            etInput.setText(resultString);
             etInput.setSelection(etInput.length());
 
         }

@@ -13,6 +13,7 @@ import com.iflytek.cloud.SpeechUtility;
 import com.microsoft.codepush.react.CodePush;
 import com.ysapp.db.DBManager;
 import com.ysapp.jsmodel.MyReactPackage;
+import com.zhusx.core.manager.ZsxApplicationManager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +59,9 @@ public class MainApplication extends Application implements ReactApplication {
     initDatabase(this);
     SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5a44a630");
 
+    ZsxApplicationManager.builder(this)
+            .setMonitorNet(true)
+            .build();
 
 
 

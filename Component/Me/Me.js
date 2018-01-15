@@ -52,8 +52,8 @@ export default class Me extends Component{
                     tabBarInactiveTextColor='#262626'
                     tabBarTextStyle={{fontSize: 14}}
                 >
-                    <WatchList tabLabel="观看记录"  type="1" navigator={this.props.navigator}/>
-                    <FavouriteList tabLabel="我的收藏" type="2" navigator={this.props.navigator}/>
+                    <WatchList tabLabel="观看记录"  type="1" navigation={this.props.navigation}/>
+                    <FavouriteList tabLabel="我的收藏" type="2" navigation={this.props.navigation}/>
 
                 </ScrollableTabView>
             </View>
