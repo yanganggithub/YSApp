@@ -11,6 +11,7 @@ import com.facebook.soloader.SoLoader;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.microsoft.codepush.react.CodePush;
+import com.mob.MobSDK;
 import com.ysapp.db.DBManager;
 import com.ysapp.jsmodel.MyReactPackage;
 import com.zhusx.core.manager.ZsxApplicationManager;
@@ -55,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    MobSDK.init(this);
     SoLoader.init(this, /* native exopackage */ false);
     initDatabase(this);
     SpeechUtility.createUtility(this, SpeechConstant.APPID +"=5a44a630");
@@ -66,6 +68,8 @@ public class MainApplication extends Application implements ReactApplication {
 
 
   }
+
+
 
   private void initDatabase(Context context) {
     DBManager.instance(context);

@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'android-apt'
+apply plugin: 'com.mob.sdk'
 
 import com.android.build.OutputFile
 
@@ -110,14 +111,42 @@ android {
         }
     }
 
-    signingConfigs {
-        release {
-            storeFile file("my-release-key.keystore")
-            storePassword "123456"
-            keyAlias "my-key-alias"
-            keyPassword "123456"
+
+    MobSDK {
+        appKey "23bc7677d2bba"
+        appSecret "71b4b4b0f13735438b682426d521717f"
+
+        ShareSDK {
+            //平台配置信息
+            devInfo {
+                SinaWeibo {
+                    appKey "568898243"
+                    appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                    callbackUri "http://www.sharesdk.cn"
+                    shareByAppClient false
+                }
+                Wechat {
+                    appId "wx4868b35061f87885"
+                    appSecret "64020361b8ec4c99936c0e3999a9f249"
+                }
+                QQ {
+                    appId "100371282"
+                    appKey "aed9b0303e3ed1e27bae87c33761161d"
+                }
+
+            }
         }
+
     }
+
+//    signingConfigs {
+//        release {
+//            storeFile file("my-release-key.keystore")
+//            storePassword "123456"
+//            keyAlias "my-key-alias"
+//            keyPassword "123456"
+//        }
+//    }
 
 
     splits {
@@ -132,7 +161,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release

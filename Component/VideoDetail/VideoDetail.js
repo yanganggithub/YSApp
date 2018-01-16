@@ -471,8 +471,12 @@ class VideoDetail extends Component{
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>咕噜影院</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{this.props.collectionStart(JSON.stringify(this.state.headerDataDic),this.state.headerDataDic['id'])}} style={styles.rightViewStyle}>
+                <TouchableOpacity onPress={()=>{this.props.collectionStart(JSON.stringify(this.state.headerDataDic),this.state.headerDataDic['id'])}} style={styles.collectionViewStyle}>
                     <Image source={{uri:this.props.isSign ?'nav_collection_current' : 'nav_collection'}} style={styles.navImageStyle}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={()=>{this.props.collectionStart(JSON.stringify(this.state.headerDataDic),this.state.headerDataDic['id'])}} style={styles.rightViewStyle}>
+                    <Image source={{uri:'nav_share'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
             </View>
         )
@@ -953,6 +957,11 @@ const styles = StyleSheet.create({
         // 绝对定位
         position:'absolute',
         right:10,
+        bottom:Platform.OS == 'ios' ? 15:13
+    },
+    collectionViewStyle:{
+        position:'absolute',
+        right:45,
         bottom:Platform.OS == 'ios' ? 15:13
     },
 
