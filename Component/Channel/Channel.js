@@ -18,11 +18,13 @@ import {
     Navigator,
     ScrollView,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import ChannelDetail from '../Channel/ChannelDetail';
-
+import YSNativeModule from "../Native/YSNativeModule";
+import  Orientation from 'react-native-orientation';
 
 
 var {width,height} = Dimensions.get('window');
@@ -126,16 +128,22 @@ retry() {
     renderNavBar(){
         return(
             <View style={styles.navOutViewStyle}>
-                <TouchableOpacity  style={styles.leftViewStyle}>
+                <TouchableOpacity  style={styles.leftViewStyle} onPress={
+                    ()=>{
+                        YSNativeModule.goToSearch();
+                    }
+                }>
                     <Image source={{uri: 'nav_search'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
                 <View style={styles.txtStyle}>
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>频道</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_record'}} style={styles.navImageStyle}/>
+                <TouchableOpacity onPress={()=>{DeviceEventEmitter.emit('goToMe', 'me');}} style={styles.rightViewStyle}>
+                    <Image source={{uri:'nav_record'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
+
+               
             </View>
         )
     }
@@ -184,6 +192,10 @@ retry() {
                
             }
         )
+    }
+
+    componentWillMount(){
+        Orientation.lockToPortrait();
     }
     
     componentDidMount(){

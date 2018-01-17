@@ -19,6 +19,7 @@ import {
     ListView,
     ActivityIndicator,
     RefreshControl,
+    DeviceEventEmitter,
 } from 'react-native';
 
 import Dimensions from'Dimensions';
@@ -27,6 +28,8 @@ import config from '../Common/config';
 import VideoDetail from '../VideoDetail/VideoDetail';
 import LoadingView from '../Widget/LoadingView';
 import RetryView from '../Widget/RetryView';
+import YSNativeModule from "../Native/YSNativeModule";
+import  Orientation from 'react-native-orientation';
 
 var {width,height} = Dimensions.get('window');
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -70,18 +73,28 @@ export default class Rank extends Component{
     renderNavBar(){
         return(
             <View style={styles.navOutViewStyle}>
-                <TouchableOpacity  style={styles.leftViewStyle}>
+                <TouchableOpacity  style={styles.leftViewStyle} onPress={
+                    ()=>{
+                        YSNativeModule.goToSearch();
+                    }
+                }>
                     <Image source={{uri: 'nav_search'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
                 <View style={styles.txtStyle}>
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>排行榜</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_record'}} style={styles.navImageStyle}/>
+                <TouchableOpacity onPress={()=>{DeviceEventEmitter.emit('goToMe', 'me');}} style={styles.rightViewStyle}>
+                    <Image source={{uri:'nav_record'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
+
+               
             </View>
         )
+    }
+
+    componentWillMount(){
+        Orientation.lockToPortrait();
     }
 
    

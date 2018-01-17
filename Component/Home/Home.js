@@ -16,12 +16,13 @@ import {
     ListView,
     TouchableOpacity,
     Navigator,
+    DeviceEventEmitter,
     Platform,
 
 } from 'react-native';
 
 
-
+import  Orientation from 'react-native-orientation';
 import request from '../Common/request';
 import config from '../Common/config';
 import AdHeader from '../Home/AdHeader';
@@ -68,7 +69,10 @@ export default class Home extends Component{
             )
         else if (this.state.pageLoading)
             return (
-                <LoadingView/>
+                <View style={styles.container}>
+                    {this.renderNavBar()}
+                    <LoadingView/>
+                </View>
             )
         else
             return (
@@ -103,9 +107,11 @@ export default class Home extends Component{
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>咕噜影院</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_record'}} style={styles.navImageStyle}/>
+                <TouchableOpacity onPress={()=>{DeviceEventEmitter.emit('goToMe', 'me');}} style={styles.rightViewStyle}>
+                    <Image source={{uri:'nav_record'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
+
+               
             </View>
         )
     }
@@ -113,6 +119,7 @@ export default class Home extends Component{
     // 请求网络数据
     componentDidMount(){
         
+        Orientation.lockToPortrait();
         this.loadDataFromNet();
     }
    // https://localhost:8888/TP5.0/public/index.php/ysapi/v1.HomePage/getHomeData

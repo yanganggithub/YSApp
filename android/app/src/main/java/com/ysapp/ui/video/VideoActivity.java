@@ -216,7 +216,7 @@ public class VideoActivity extends MVPBaseActivity<PlayPresenter> implements Pla
         if (realUrl == 0){
 
                 player.setTitle(title + " " + entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
-                mPresenter.playMove("url", "2", entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
+                mPresenter.playMove(url, "2", entity.vod_url_list.get(originIndex).list.get(playIndex).play_name);
 
         }else if(realUrl == 1)
         {

@@ -21,6 +21,7 @@ import {
     FlatList,
 } from 'react-native';
 
+import  Orientation from 'react-native-orientation';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import YSNativeModule from "../Native/YSNativeModule"
 import VideoDetail from "../VideoDetail/VideoDetail"
@@ -64,18 +65,24 @@ export default class Me extends Component{
     renderNavBar(){
         return(
             <View style={styles.navOutViewStyle}>
-                <TouchableOpacity  style={styles.leftViewStyle}>
+                <TouchableOpacity  style={styles.leftViewStyle} onPress={
+                    ()=>{
+                        YSNativeModule.goToSearch();
+                    }
+                }>
                     <Image source={{uri: 'nav_search'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
                 <View style={styles.txtStyle}>
                     <Text style={{color:'white', fontSize:18, fontWeight:'bold'}}>我的</Text>
                 </View>
 
-                <TouchableOpacity onPress={()=>{alert('点了!')}} style={styles.rightViewStyle}>
-                    <Image source={{uri: 'nav_record'}} style={styles.navImageStyle}/>
-                </TouchableOpacity>
+             
             </View>
         )
+    }
+
+    componentWillMount(){
+        Orientation.lockToPortrait();
     }
 
    

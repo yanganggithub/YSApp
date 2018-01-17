@@ -72,7 +72,7 @@ export default class ContentLIstCell extends Component{
                         <Text style={{fontSize:12,color:'#ffffff'}}>{'8分'}</Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.title}</Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.title}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

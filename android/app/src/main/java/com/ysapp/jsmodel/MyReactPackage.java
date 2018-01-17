@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.ysapp.widget.nativeview.CircleManager;
 import com.ysapp.widget.nativeview.MyCustomViewManager;
+import com.ysapp.widget.nativeview.ShareBtnViewManager;
 import com.ysapp.widget.nativeview.VideoViewManager;
 
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class MyReactPackage implements ReactPackage {
         return Arrays.<ViewManager>asList(
                 new MyCustomViewManager(),
                 new CircleManager(),
-                new VideoViewManager()
+                new VideoViewManager(),
+                new ShareBtnViewManager()
         );
     }
 

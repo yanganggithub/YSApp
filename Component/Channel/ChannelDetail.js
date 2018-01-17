@@ -25,6 +25,7 @@ import VideoDetail from '../VideoDetail/VideoDetail'
 import LoadImage from '../Until/LoadImage';
 import RetryView from '../Widget/RetryView';
 import LoadingView from '../Widget/LoadingView';
+import  Orientation from 'react-native-orientation';
 
 var cols = 3;
 var space = 8;
@@ -73,7 +74,10 @@ export default class ChannelDetail extends Component{
         )
         else if (this.state.pageLoading)
             return (
-                <LoadingView/>
+                <View style={styles.container}>
+                    {this.renderNavBar()}
+                    <LoadingView/>
+                </View>
             )
         else
             return (
@@ -131,7 +135,7 @@ export default class ChannelDetail extends Component{
                         <Text style={{fontSize:12,color:'#ffffff'}}>8.0  </Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}}>{rowdata.item.title}</Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.item.title}</Text>
                     </View>
 
                 </View>
@@ -236,6 +240,10 @@ export default class ChannelDetail extends Component{
         // console.log(headerArr, listDataArr);
     }
 
+
+    componentWillMount(){
+        Orientation.lockToPortrait();
+    }
 
     componentDidMount(){
         this.loadDataFromNet(1);
@@ -367,8 +375,13 @@ const styles = StyleSheet.create({
     leftViewStyle:{
         // 绝对定位
         position:'absolute',
-        left:10,
-        bottom:Platform.OS == 'ios' ? 15:13
+        left:0,
+        bottom:Platform.OS == 'ios' ? 0:0,
+        justifyContent:'center',
+        alignItems:'center',
+        width:44,
+        height:44,
+
     },
 
     navImageStyle:{

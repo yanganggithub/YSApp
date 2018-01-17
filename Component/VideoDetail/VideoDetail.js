@@ -37,6 +37,8 @@ import DataBaseNativeModule from '../Native/DataBaseNativeModule';
 import {bindActionCreators} from 'redux';
 import *as collectionAction from '../ReduxSrc/action/collectionAction';// 导入action方法
 import { connect } from 'react-redux'; // 引入connect函数
+import ShareBtn from '../Widget/ShareBtn';
+import  Orientation from 'react-native-orientation';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import Dimensions from'Dimensions';
@@ -91,7 +93,10 @@ class VideoDetail extends Component{
             )
         else if (this.state.pageLoading)
             return (
-                <LoadingView/>
+                <View style={styles.container}>
+                    {this.renderNavBar()}
+                    <LoadingView/>
+                </View>
             )
         else
         {
@@ -298,7 +303,7 @@ class VideoDetail extends Component{
 
 
                     <View style={styles.contentStyle}>
-                        <Text style={{color:'white',fontSize:12}}>类型: {this.state.headerDataDic.keywords}</Text>
+                        <Text style={{color:'white',fontSize:12}}>主演: {this.state.headerDataDic.zhuyan}</Text>
 
                     </View>
                    
@@ -347,7 +352,25 @@ class VideoDetail extends Component{
 
     renderRow(rowData){
         console.log('rowData:',rowData);
-        return <View></View>
+        let description='';
+        if(this.state.headerDataDic.juqing)
+        {
+            description = this.state.headerDataDic.juqing;
+        }else if(this.state.headerDataDic.plot)
+        {
+            description = this.state.headerDataDic.plot;
+        }
+        return (
+        <View style={{padding:10}}>
+            <ScrollView >
+                <Text style={{fontSize:16,color:'#262626'}}>{description}</Text>
+            </ScrollView>
+
+        </View>)
+    }
+
+    componentWillMount(){
+        Orientation.lockToPortrait();
     }
 
     // 请求网络数据
@@ -453,13 +476,26 @@ class VideoDetail extends Component{
     // 导航条
     renderNavBar(){
         // alert(JSON.stringify(this.state.headerDataDic));
-       
+        let title = '';
+        let titleUrl = '';
+        let text = '';
+        let imgPath = '';
+        let url = '';
+        let comment = '';
+       if(this.state.headerDataDic)
+       {
+          title = this.state.headerDataDic.title;
+          titleUrl = 'www.guaiguaiyingshi.com';
+          text = '我正在看这部';
+          imgPath =  this.state.headerDataDic.litpic.indexOf('https://www.guaiguaiyingshi.com') == -1? 'https://www.guaiguaiyingshi.com' + this.state.headerDataDic.litpic : this.state.headerDataDic.litpic;
+          url='www.guaiguaiyingshi.com';
+          comment = '感觉不错';
+       }
         return(
             <View style={styles.navOutViewStyle}>
                 <TouchableOpacity  style={styles.leftViewStyle}  onPress={()=>{
                     if(this.props.navigation)
                     {
-
                         this.props.navigation.goBack()
                     }else{
                         YSNativeModule.goBack();
@@ -475,8 +511,14 @@ class VideoDetail extends Component{
                     <Image source={{uri:this.props.isSign ?'nav_collection_current' : 'nav_collection'}} style={styles.navImageStyle}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=>{this.props.collectionStart(JSON.stringify(this.state.headerDataDic),this.state.headerDataDic['id'])}} style={styles.rightViewStyle}>
-                    <Image source={{uri:'nav_share'}} style={styles.navImageStyle}/>
+                <TouchableOpacity  style={styles.rightViewStyle}>
+                    <ShareBtn style={styles.navImageStyle}  
+                    title = {title} 
+                    titleUrl={titleUrl} 
+                    text={text} 
+                    imgPath={imgPath } 
+                    url={url}
+                    comment={comment} />
                 </TouchableOpacity>
             </View>
         )
@@ -921,12 +963,10 @@ class Item extends Component {
                 </View>
             );
         }
-
     }
 }
 
 const styles = StyleSheet.create({
-
 
     container:{
         flex:1,
@@ -944,14 +984,20 @@ const styles = StyleSheet.create({
     leftViewStyle:{
         // 绝对定位
         position:'absolute',
-        left:10,
-        bottom:Platform.OS == 'ios' ? 15:13
+        left:0,
+        bottom:Platform.OS == 'ios' ? 0:0,
+        justifyContent:'center',
+        alignItems:'center',
+        width:44,
+        height:44,
+
     },
 
     navImageStyle:{
         width:Platform.OS == 'ios' ? 24: 24,
         height:Platform.OS == 'ios' ? 24: 24,
     },
+   
 
     rightViewStyle:{
         // 绝对定位

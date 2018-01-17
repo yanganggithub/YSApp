@@ -14,7 +14,8 @@ import {
     View,
     Image,
     Platform,   // 判断当前运行的系统
-    Navigator
+    Navigator,
+    DeviceEventEmitter
 } from 'react-native';
 
 /**-----导入外部的组件类------**/
@@ -36,8 +37,6 @@ export default class Tabbar extends Component{
         super(props);
         this.state = {selectedTab:'home' };
     }
-
-
 
     render() {
 
@@ -73,6 +72,19 @@ export default class Tabbar extends Component{
         )
     }
 
+    componentDidMount() {
+        this.subscription = DeviceEventEmitter.addListener('goToMe',(me) =>{
+             this.setState({
+                 selectedTab:me
+             });
+        })
+    }
+
+
+   componentWillUnmount() {
+    // 移除
+     this.subscription.remove();
+    }
 
 }
 
