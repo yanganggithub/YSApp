@@ -68,12 +68,14 @@ export default class Channel extends Component{
         for(var i = 0;i< this.state.cateData.length;i++)
         {
 
-            if(i % 2 == 0){
+            if(i % 2 == 0 && (i + 1)<=this.state.cateData.length){
+                let data1 = (i <= this.state.cateData.length-1) ? this.state.cateData[i]:undefined;
+                let data2 = ((i + 1) <= this.state.cateData.length-1) ? this.state.cateData[i+1]:undefined;
                 let row = (
                     <View style={styles.row} key={i + 1}>
                         {/*<Text>hello</Text>*/}
-        
-                        <CateItem data={this.state.cateData[i]}
+    
+                        <CateItem data={data1}
                                     viewColor= {colorArr[i%4]}
                                     press={this.press.bind(this, this.state.cateData[i]) }
         
@@ -81,7 +83,7 @@ export default class Channel extends Component{
         
                         </CateItem>
         
-                        <CateItem data={this.state.cateData[i+1]}
+                        <CateItem data={data2}
                                     viewColor={colorArr[(i+1)%4]}
                                     press={this.press.bind(this, this.state.cateData[i+1]) }
         
@@ -92,6 +94,8 @@ export default class Channel extends Component{
                 listCate.push(row);
             }
         }
+
+        
 
         return (
             <View style={styles.container}>
@@ -150,7 +154,7 @@ retry() {
 
     loadDataFromNet(){
 
-        request.get(config.api.base + 'ysapi/v1/channel/all',{
+        request.get(config.api.base + 'seaapi/v1.Channel/getChannels',{
 
         }).then(
         (responseData)=>{
@@ -161,14 +165,12 @@ retry() {
 
                 cateData = jsonData.map(data => {
                     let dic={};
-                    dic['typeid'] = data['typeid'];
-                    dic['name'] = data['typename'];
+                    dic['typeid'] = data['tid'];
+                    dic['name'] = data['tname'];
                     dic['total'] = data['total'];
                     return dic;
                 })
 
-                
-                
                 this.setState(
                     {
                         pageLoading: false,
@@ -209,18 +211,18 @@ retry() {
 class CateItem extends Component{
     constructor(props) {
         super(props);
-        console.log('cateItem init');
+        console.log('cateitem init');
+        console.log(props);
 
     }
     
     render() {
        
-        
+           if(this.props.data){
             return (
                 <TouchableOpacity onPress={this.props.press}>
                     <View  style={[styles.cateItem, {backgroundColor:this.props.viewColor}]}>
 
-            
                             <Image    style={{position:'absolute',left:0,top:0,width:imgW, height:imgH}}>
                             
                             </Image>
@@ -231,14 +233,13 @@ class CateItem extends Component{
                                     <Text  style={{color:'white',fontSize:12,backgroundColor: 'transparent',}}>{this.props.data.total}</Text>
                                 </View>
                             </View>
-
-
                     </View>
                 </TouchableOpacity>
-
-
-
             );
+           }else{
+               return <View/>
+           }
+        
 
 
     }

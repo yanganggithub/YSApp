@@ -67,12 +67,12 @@ export default class ContentLIstCell extends Component{
                 navigate('VideoDetail',rowdata);
             } }>
                 <View style={styles.cellStyle}>
-                    <Image source={{uri: rowdata.litpic}}  loadingIndicatorSource ={{uri:'common_loading'}} style={{width:imgW, height:imgH}}/>
+                    <Image source={{uri: rowdata.v_pic}}  loadingIndicatorSource ={{uri:'common_loading'}} style={{width:imgW, height:imgH}}/>
                     <View style={styles.titleStyle}>
                         <Text style={{fontSize:12,color:'#ffffff'}}>{'8分'}</Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.title}</Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.v_name}</Text>
                     </View>
                 </View>
             </TouchableOpacity>

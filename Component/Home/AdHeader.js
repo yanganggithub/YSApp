@@ -117,7 +117,7 @@ export default class AdHeader extends Component{
                     const { navigate } = this.props.navigation;
                     navigate('VideoDetail',imgItem);
                 } }>
-                    <Image key={i} source={{uri:imgItem.litpic}} style={{width:width, height:140}}/>
+                    <Image key={i} source={{uri:imgItem.v_pic}} style={{width:width, height:140}}/>
                 </TouchableOpacity>
             );
         }

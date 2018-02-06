@@ -130,12 +130,12 @@ export default class ChannelDetail extends Component{
             } }>
                 <View style={styles.cellStyle}>
                
-                    <Image source={{uri:rowdata.item.litpic}} loadingIndicatorSource ={{uri:'common_loading'}} style = {{width:imgW,height:imgH}} />
+                    <Image source={{uri:rowdata.item.v_pic}} loadingIndicatorSource ={{uri:'common_loading'}} style = {{width:imgW,height:imgH}} />
                     <View style={styles.titleStyle}>
                         <Text style={{fontSize:12,color:'#ffffff'}}>8.0  </Text>
                     </View>
                     <View style={styles.bottomViewStyle}>
-                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.item.title}</Text>
+                        <Text style={{fontSize:13,textAlign: 'center',color:'#262626'}} numberOfLines={2}>{rowdata.item.v_name}</Text>
                     </View>
 
                 </View>
@@ -191,9 +191,9 @@ export default class ChannelDetail extends Component{
     }
 
     loadDataFromNet(page){
-        
+       
         const { params } = this.props.navigation.state;
-        request.post(config.api.base + 'ysapi/v1/rank/getrank',{
+        request.post(config.api.base + 'seaapi/v1.Rank/getRankByid',{
             typeid:params.typeid,
             page:this.cachedResults.nextPage,
             pageSize:12,

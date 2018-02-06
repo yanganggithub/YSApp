@@ -122,10 +122,10 @@ export default class Home extends Component{
         Orientation.lockToPortrait();
         this.loadDataFromNet();
     }
-   // https://localhost:8888/TP5.0/public/index.php/ysapi/v1.HomePage/getHomeData
+  
     loadDataFromNet(){
         console.log('loadDataFromNet');
-        request.get(config.api.base + 'ysapi/v1.HomePage/getHomeData',{
+        request.get(config.api.base + 'seaapi/v1.HomePage/getHomeData',{
             
        }).then(
            (responseData)=>{
@@ -155,7 +155,7 @@ export default class Home extends Component{
         listDataArr.push(jsonData['tv_list']);
         listDataArr.push(jsonData['arts_list']);
         listDataArr.push(jsonData['comic_list']);
-        listDataArr.push(jsonData['korean_iist']);
+
 
         // 更新状态机
         this.setState({

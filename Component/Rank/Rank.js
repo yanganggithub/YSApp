@@ -58,10 +58,10 @@ export default class Rank extends Component{
                     tabBarInactiveTextColor='#262626'
                     tabBarTextStyle={{fontSize: 14}}
                     >
-                    <VideoList tabLabel="电影"  type="24" navigation={this.props.navigation}/>
-                    <VideoList tabLabel="电视剧" type="21" navigation={this.props.navigation}/>
-                    <VideoList tabLabel="综艺" type="23" navigation={this.props.navigation}/>
-                    <VideoList tabLabel="动漫" type="25" navigation={this.props.navigation}/>
+                    <VideoList tabLabel="电影"  type="30" navigation={this.props.navigation}/>
+                    <VideoList tabLabel="连续剧" type="31" navigation={this.props.navigation}/>
+                    <VideoList tabLabel="综艺" type="32" navigation={this.props.navigation}/>
+                    <VideoList tabLabel="动漫" type="33" navigation={this.props.navigation}/>
 
                 </ScrollableTabView>
             </View>
@@ -229,7 +229,7 @@ class VideoList extends Component {
 
     loadDataFromNet(page){
 
-        request.post(config.api.base + 'ysapi/v1.Rank/getRankByid',{
+        request.post(config.api.base + 'seaapi/v1.Rank/getRankByid',{
             typeid:this.props.type,
             page:page
         }).then(
@@ -296,15 +296,18 @@ class VideoList extends Component {
             } }>
                 <View style={styles.listViewStyle}>
                     {/*左边*/}
-                    <Image source={{uri:rowData.litpic}}  loadingIndicatorSource ={{uri:'common_loading'}} style={styles.imageViewStyle} />
+                    <Image source={{uri:rowData.v_pic}}  loadingIndicatorSource ={{uri:'common_loading'}} style={styles.imageViewStyle} />
                     {/*右边*/}
 
                     <View style={styles.rightContentStyle}>
 
-                        <View style={styles.rightTopViewStyle}>
-                            <Text>{rowData.title}</Text>
+                    <View style={styles.rightTopViewStyle}>
+                        <Text>{rowData.v_name}</Text>
 
-                        </View>
+                    </View>
+                    <View style={styles.areaStyle}>
+                        <Text style={{color:'gray'}}>{rowData.v_actor}</Text>
+                    </View>
                         
 
                     </View>

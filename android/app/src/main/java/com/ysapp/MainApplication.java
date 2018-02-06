@@ -68,10 +68,7 @@ public class MainApplication extends Application implements ReactApplication {
             .build();
 
 
-
   }
-
-
 
   private void initDatabase(Context context) {
     DBManager.instance(context);
