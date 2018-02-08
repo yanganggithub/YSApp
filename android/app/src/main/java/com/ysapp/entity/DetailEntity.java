@@ -53,8 +53,6 @@ public class DetailEntity implements Serializable {
         public String username;
     }
 
-
-
     public static class Near implements Serializable {
         public String id;
         public String name;
