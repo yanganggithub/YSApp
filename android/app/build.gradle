@@ -131,14 +131,14 @@ android {
 
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile file("my-release-key.keystore")
-//            storePassword "123456"
-//            keyAlias "my-key-alias"
-//            keyPassword "123456"
-//        }
-//    }
+    signingConfigs {
+        release {
+            storeFile file("my-release-key.keystore")
+            storePassword "123456"
+            keyAlias "my-key-alias"
+            keyPassword "123456"
+        }
+    }
 
 
     splits {
@@ -153,7 +153,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -175,6 +175,7 @@ dependencies {
     compile project(':react-native-orientation')
     compile 'com.zhusx:core:0.1.0'
     annotationProcessor 'com.zhusx:apt:0.4.0'
+    compile "com.android.support:design:${COMM_VERSION}"
 
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -192,7 +193,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.54.android'
     //butterknife
     compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
-    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     compile project(':giraffeplayer')
     compile files('libs/picasso-2.5.2.jar')
     compile files('libs/Msc.jar')
