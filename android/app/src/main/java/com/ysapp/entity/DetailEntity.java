@@ -11,13 +11,23 @@ import java.util.List;
 
 public class DetailEntity implements Serializable {
 
+    public String area;
+    public String pic;
+    public String name;
     public String nainfen;
     public String zhuyan;
     public String litpic;
     public String title;
-    public  String id;
+    public String id;
+    public int year;
+    public String director;
+    public String keywords;
+    public String actor;
+    public String content;
     public  int type;
     public List<Origin> vod_url_list;
+    public List<Comment> comment_list;
+    public List<Near> near_list;
 
 
     public static class Origin implements Serializable {

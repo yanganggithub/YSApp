@@ -175,6 +175,7 @@ dependencies {
     compile project(':react-native-orientation')
     compile 'com.zhusx:core:0.1.0'
     annotationProcessor 'com.zhusx:apt:0.4.0'
+    compile "com.android.support:design:${COMM_VERSION}"
 
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -192,7 +193,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.54.android'
     //butterknife
     compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
-    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     compile project(':giraffeplayer')
     compile files('libs/picasso-2.5.2.jar')
     compile files('libs/Msc.jar')

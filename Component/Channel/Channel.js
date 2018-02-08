@@ -159,7 +159,7 @@ retry() {
         }).then(
         (responseData)=>{
 
-                let jsonData = responseData['data'];
+                let jsonData = responseData['data']['list'];
                
                 let cateData = [];
 
