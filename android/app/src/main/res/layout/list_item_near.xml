@@ -6,7 +6,7 @@
     android:paddingRight="14dp"
     android:paddingLeft="14dp">
 
-    <com.hongju.gulu.widget.FrescoImageView
+    <com.ysapp.widget.FrescoImageView
         android:id="@+id/iv_img"
         android:layout_width="80dp"
         android:layout_height="106.7dp"

@@ -81,7 +81,7 @@
                     android:paddingLeft="14dp"
                     android:paddingRight="14dp">
 
-                    <com.hongju.gulu.widget.FrescoImageView
+                    <com.ysapp.widget.FrescoImageView
                         android:id="@+id/iv_img"
                         android:layout_width="130dp"
                         android:layout_height="173dp"
@@ -141,7 +141,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="12dp" />
 
-                            <com.hongju.gulu.widget.FrescoImageView
+                            <com.ysapp.widget.FrescoImageView
                                 android:id="@+id/iv_origin"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp" />
@@ -157,7 +157,7 @@
                                 android:textSize="12dp" />
                         </LinearLayout>
 
-                        <com.hongju.gulu.widget.ShapeTextView
+                        <com.ysapp.widget.ShapeTextView
                             android:id="@+id/tv_record"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -179,7 +179,7 @@
                             android:scaleType="center"
                             android:visibility="gone"
                             />
-                        <com.hongju.gulu.widget.ShapeTextView
+                        <com.ysapp.widget.ShapeTextView
                             android:id="@+id/tv_play"
                             android:layout_width="100dp"
                             android:layout_height="44dp"

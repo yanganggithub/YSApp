@@ -10,7 +10,6 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -37,6 +36,6 @@ public interface ApiService {
     /**
      * 详情
      */
-    @GET("/detail/{id}")
-    Observable<JSONResult<DetailEntity>> detail(@Path("id") String id);
+    @GET("seaapi/v1.Play/getPlayData")
+    Observable<JSONResult<DetailEntity>> detail(@Query("id") String id);
 }

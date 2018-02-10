@@ -176,6 +176,7 @@ public class DetailActivity extends MVPBaseActivity<DetailPresenter> implements 
         lst.add(new Item("简介", fragment));
         switch (entity.type) {
             case 1:
+                //电影
                 fragment = new CommentsFragment();
                 fragment.setArguments(bundle);
                 lst.add(0, new Item("影评（" + (entity.comment_list != null ? entity.comment_list.size() : 0) + "）", fragment));

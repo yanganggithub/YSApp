@@ -26,6 +26,7 @@ import LoadImage from '../Until/LoadImage';
 import RetryView from '../Widget/RetryView';
 import LoadingView from '../Widget/LoadingView';
 import  Orientation from 'react-native-orientation';
+import YSNativeModule from '../Native/YSNativeModule'
 
 var cols = 3;
 var space = 8;
@@ -125,8 +126,9 @@ export default class ChannelDetail extends Component{
         
         return(
             <TouchableOpacity activeOpacity={1} onPress={()=>{
-                const { navigate } = this.props.navigation;
-                navigate('VideoDetail',rowdata.item);
+                // const { navigate } = this.props.navigation;
+                // navigate('VideoDetail',rowdata.item);
+                YSNativeModule.goToVideoDetailWithId(rowdata.item.v_id);
             } }>
                 <View style={styles.cellStyle}>
                

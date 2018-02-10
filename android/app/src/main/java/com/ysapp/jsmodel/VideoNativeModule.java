@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.ysapp.entity.DetailEntity;
+import com.ysapp.ui.detail.view.DetailActivity;
 import com.ysapp.ui.search.SearchActivity;
 
 
@@ -72,6 +73,29 @@ public class VideoNativeModule extends ReactContextBaseJavaModule {
                 });
             }
     }
+
+    @ReactMethod
+    public void goToVideoDetailWithId(final String id){
+        final Activity currentActivity = getCurrentActivity();
+        if(null!=currentActivity) {
+            currentActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    Intent intent = new Intent(currentActivity, DetailActivity.class);
+                    intent.putExtra("id", id);
+                    currentActivity.startActivity(intent);
+                }
+
+            });
+        }
+    }
+
+
+
+
+
     @ReactMethod
     public void getHistory()
     {
