@@ -132,6 +132,14 @@ android {
     }
 
     signingConfigs {
+
+        debug {
+            storeFile file("my-release-key.keystore")
+            storePassword "123456"
+            keyAlias "my-key-alias"
+            keyPassword "123456"
+        }
+
         release {
             storeFile file("my-release-key.keystore")
             storePassword "123456"
@@ -193,7 +201,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.1.54.android'
     //butterknife
     compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+    apt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
     compile project(':giraffeplayer')
     compile files('libs/picasso-2.5.2.jar')
     compile files('libs/Msc.jar')
